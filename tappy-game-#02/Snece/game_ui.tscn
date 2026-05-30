@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt14b2vnk8887"]
+
+[ext_resource type="Script" path="res://Snece/game_ui.gd" id="1_1f6q0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dx3ar"]
+font_size = 40
+
+[node name="Game_UI" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1f6q0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="gameover" type="Label" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "GameOver"
+label_settings = SubResource("LabelSettings_dx3ar")
+horizontal_alignment = 1
+
+[node name="Spacebar" type="Label" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Press Spacebar
+(Restart)"
+label_settings = SubResource("LabelSettings_dx3ar")
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "000
+"
+label_settings = SubResource("LabelSettings_dx3ar")
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.316
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

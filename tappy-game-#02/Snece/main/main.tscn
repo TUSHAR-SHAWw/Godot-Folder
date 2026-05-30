@@ -1,0 +1,102 @@
+[gd_scene load_steps=9 format=3 uid="uid://chmgdlnahvadc"]
+
+[ext_resource type="Texture2D" uid="uid://bbbil6ejf38ri" path="res://Assets/background/sky.png" id="1_ceni3"]
+[ext_resource type="Script" path="res://Snece/main/main.gd" id="1_u81xd"]
+[ext_resource type="FontFile" uid="uid://bkfx63ocdqupu" path="res://Assets/fonts/LuckiestGuy-Regular.ttf" id="2_ffhbe"]
+[ext_resource type="LabelSettings" uid="uid://c8yn8b423hjf7" path="res://Resourses/main.tres" id="2_yr0g6"]
+[ext_resource type="AudioStream" uid="uid://dxhqxo2te1lab" path="res://Assets/audio/bgm_menu.mp3" id="4_4lk3k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jfoce"]
+font = ExtResource("2_ffhbe")
+font_size = 50
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ruvu5"]
+font = ExtResource("2_ffhbe")
+font_size = 24
+font_color = Color(1, 0.0627451, 1, 1)
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_idiic"]
+font = ExtResource("2_ffhbe")
+font_size = 24
+font_color = Color(1, 0.0627451, 1, 1)
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u81xd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ceni3")
+expand_mode = 1
+
+[node name="mc" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="GameName" type="Label" parent="mc"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Tappy
+Plane
+"
+label_settings = ExtResource("2_yr0g6")
+horizontal_alignment = 1
+
+[node name="startlabel" type="Label" parent="mc"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Press Space
+To Play
+"
+label_settings = SubResource("LabelSettings_jfoce")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="scoretextlebel" type="Label" parent="mc"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "HighScore"
+label_settings = SubResource("LabelSettings_ruvu5")
+
+[node name="Scorelabel" type="Label" parent="mc"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "1
+"
+label_settings = SubResource("LabelSettings_idiic")
+horizontal_alignment = 2
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_4lk3k")
+volume_db = -37.638
+autoplay = true
+parameters/looping = true
+
+[connection signal="gui_input" from="mc/scoretextlebel" to="." method="_on_scoretextlebel_gui_input"]

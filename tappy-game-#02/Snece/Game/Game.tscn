@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cpw4i2nqyght7"]
+
+[ext_resource type="Script" path="res://Snece/Game/game.gd" id="1_c8052"]
+[ext_resource type="PackedScene" uid="uid://rhno2061pa7s" path="res://Snece/Tappy/Tappy.tscn" id="2_080qd"]
+[ext_resource type="PackedScene" uid="uid://c1b3fu3x6h7vf" path="res://Snece/scrollingbg.tscn" id="2_an4mi"]
+[ext_resource type="PackedScene" uid="uid://bbcqx401oynxt" path="res://Snece/Barrier/barrier.tscn" id="3_5k2we"]
+[ext_resource type="PackedScene" uid="uid://bt14b2vnk8887" path="res://Snece/game_ui.tscn" id="5_0tffo"]
+[ext_resource type="AudioStream" uid="uid://dxhqxo2te1lab" path="res://Assets/audio/bgm_menu.mp3" id="6_6lg8d"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_c8052")
+
+[node name="Scrollingbg" parent="." instance=ExtResource("2_an4mi")]
+scale = Vector2(0.79, 0.79)
+
+[node name="Tappy" parent="." instance=ExtResource("2_080qd")]
+position = Vector2(33, 312)
+
+[node name="Barrier" parent="." instance=ExtResource("3_5k2we")]
+
+[node name="PipesHolder" type="Node" parent="."]
+
+[node name="UpperSpawn" type="Marker2D" parent="."]
+position = Vector2(530, 230)
+
+[node name="LowerSpawn" type="Marker2D" parent="."]
+position = Vector2(530, 550)
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Game_UI" parent="CanvasLayer" instance=ExtResource("5_0tffo")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_6lg8d")
+autoplay = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

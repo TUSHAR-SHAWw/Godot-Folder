@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsyge65ii1o5e"]
+
+[ext_resource type="PackedScene" uid="uid://bs72ogkvdd7d6" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.tscn" id="1_t2afu"]
+[ext_resource type="Script" path="res://brackeys-proto-controller-main/proto_controller/proto_controller.gd" id="2_bgowt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uqie8"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_0g6tg"]
+sky_material = SubResource("ProceduralSkyMaterial_uqie8")
+
+[sub_resource type="Environment" id="Environment_lusnr"]
+background_mode = 2
+sky = SubResource("Sky_0g6tg")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lusnr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.670638, -0.486566, -0.559909, 0.423296, -0.368824, 0.82752, -0.609151, -0.791974, -0.0413859, 28.6954, 9.79689, 43.1336)
+shadow_enabled = true
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(-8.84197e-08, 0, 0.387356, 0, 17.0354, 0, -2.02281, 0, -1.69319e-08, -9.35814, 3.13014, -2.52933)
+use_collision = true
+size = Vector3(6, 1, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D/CSGBox3D5"]
+transform = Transform3D(0.682188, 0, 0, 0, 0.151344, 0, -4.26326e-14, 0, 2.0434, 0.420545, -0.074031, 0.109188)
+operation = 2
+size = Vector3(1.43445, 1.45813, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(-8.84197e-08, 0, 0.387356, 0, 19.7571, 0, -2.02281, 0, -1.69319e-08, 14.4019, 1.687, -2.30684)
+use_collision = true
+size = Vector3(6, 1, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(6.67653, 0, 0, 0, 36.1998, 0, 0, 0, 0.269753, -5.4448, 2.77832, 3.6578)
+use_collision = true
+size = Vector3(6, 0.489258, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(4.01455, 0, 0, 0, 22.1905, 0, 0, 0, 0.768762, 2.55106, 0.55325, -8.5382)
+use_collision = true
+size = Vector3(6, 1, 1)
+
+[node name="Floor" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(128.248, 0, 0, 0, 0.166157, 0, 0, 0, 129.952, 0, 0, 0)
+use_collision = true
+
+[node name="ProtoController" parent="." instance=ExtResource("1_t2afu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.1503, 0.0830784, 18.4098)
+script = ExtResource("2_bgowt")
