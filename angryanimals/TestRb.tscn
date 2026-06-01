@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhrpowjg01qep"]
+
+[ext_resource type="Texture2D" uid="uid://ce0ejsq7yun3j" path="res://icon.svg" id="1_6l2eu"]
+[ext_resource type="Script" path="res://bird.gd" id="2_j50rx"]
+[ext_resource type="Texture2D" uid="uid://kd2i0u3kl3ww" path="res://Assets/ui/panel_beige.png" id="2_xav06"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4k6sq"]
+size = Vector2(916, 48)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hapuw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1xnnl"]
+radius = 32.0156
+
+[node name="TestRb" type="Node"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-18, 646)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(609, -27)
+scale = Vector2(13.18, 0.46)
+texture = ExtResource("2_xav06")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(598, -26)
+shape = SubResource("RectangleShape2D_4k6sq")
+
+[node name="bird" type="RigidBody2D" parent="."]
+position = Vector2(484, 388)
+input_pickable = true
+physics_material_override = SubResource("PhysicsMaterial_hapuw")
+freeze = true
+max_contacts_reported = 1
+script = ExtResource("2_j50rx")
+
+[node name="Sprite2D" type="Sprite2D" parent="bird"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_6l2eu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bird"]
+shape = SubResource("CircleShape2D_1xnnl")
+
+[node name="Label" type="Label" parent="bird"]
+top_level = true
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 262.0
+offset_bottom = 225.0
+theme_override_font_sizes/font_size = 48
+text = "fdfhfghfgh
+fgfgfghfgh
+ffgfghfghf"
+
+[node name="bird2" type="RigidBody2D" parent="."]
+position = Vector2(498, 50)
+physics_material_override = SubResource("PhysicsMaterial_hapuw")
+
+[node name="Sprite2D" type="Sprite2D" parent="bird2"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_6l2eu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bird2"]
+shape = SubResource("CircleShape2D_1xnnl")
+
+[connection signal="body_entered" from="bird" to="bird" method="_on_body_entered"]
+[connection signal="input_event" from="bird" to="bird" method="_on_input_event"]
+[connection signal="sleeping_state_changed" from="bird" to="bird" method="_on_sleeping_state_changed"]
