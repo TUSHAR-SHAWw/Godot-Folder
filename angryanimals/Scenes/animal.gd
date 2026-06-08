@@ -23,7 +23,7 @@ func _ready() -> void:
 	_arrow_scale_x=arrow.scale.x
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	label.text = """
 	Freeze: %s
 	Sleeping: %s
@@ -79,10 +79,10 @@ func startdragging()->void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _is_dragging and event.is_action_released("drag"):
-		start_release()
+		
 		call_deferred("start_release")
 
-func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event.is_action_pressed("drag"):
 		input_event.disconnect(_on_input_event)
 		startdragging()
@@ -103,7 +103,7 @@ func handle_dragging()->void:
 	_dragged=_new_dragged
 	position=_start+_dragged
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if _is_dragging:
 		handle_dragging()
 		scale_arrow()
@@ -114,6 +114,27 @@ func calculate_impulse()->Vector2:
 func scale_arrow() -> void:
 	var power = calculate_impulse().length() / IMPULSE_MAX
 	power = clamp(power, 0.0, 1.0)
-
 	arrow.scale.x = _arrow_scale_x + power
 	arrow.rotation = (_start - position).angle()
+
+func die()-> void:
+	Signalhub.emit_animal_died()
+	queue_free()
+	
+#func scale_arrow() -> void:
+	#var new_scale:float=clamp((calculate_impulse().length())/IMPULSE_MAX,_arrow_scale_x,0.9)
+	#arrow.scale.x=new_scale
+	#arrow.rotation = (_start - position).angle()
+
+
+func _on_body_entered(body: Node) -> void:
+	if body is StaticBody2D and !kick_sound.playing:
+		kick_sound.play()
+
+
+func _on_sleeping_state_changed() -> void:
+	if sleeping:
+		for body in get_colliding_bodies():
+			if body is cup:
+				body.die()
+		die()
