@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://btutbrajrandy"]
+
+[ext_resource type="PackedScene" uid="uid://pwa71eynguki" path="res://Scenes/Lavelbase/lavelbase.tscn" id="1_c03vf"]
+[ext_resource type="PackedScene" uid="uid://bcom28at8ygi7" path="res://Scenes/Cup.tscn" id="2_g3ptk"]
+
+[node name="Lavel2" instance=ExtResource("1_c03vf")]
+
+[node name="Cup" parent="." index="4" instance=ExtResource("2_g3ptk")]
+position = Vector2(329, 417)
+
+[node name="Cup2" parent="." index="5" instance=ExtResource("2_g3ptk")]
+position = Vector2(752, 399)
+
+[node name="Cup3" parent="." index="6" instance=ExtResource("2_g3ptk")]
+position = Vector2(1022, 138)

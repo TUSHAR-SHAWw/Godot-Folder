@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://b18h1k8e75cl5" path="res://Assets/scene/colored_castle.png" id="1_gk0en"]
 [ext_resource type="Script" path="res://Scenes/Lavelbase/lavelbase.gd" id="1_mu87u"]
 [ext_resource type="PackedScene" uid="uid://d4jico2bf6ypl" path="res://Scenes/Water.tscn" id="3_mwu0x"]
-[ext_resource type="PackedScene" uid="uid://bcom28at8ygi7" path="res://Scenes/Cup.tscn" id="4_am8r4"]
+[ext_resource type="PackedScene" uid="uid://dgrsdpr37lwag" path="res://Scenes/GameUi.tscn" id="5_qlull"]
 
-[node name="Lavelbase" type="Node2D"]
+[node name="Lavelbase" type="Node"]
 script = ExtResource("1_mu87u")
 
 [node name="BG" type="Sprite2D" parent="."]
@@ -19,5 +19,4 @@ position = Vector2(567, 629)
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(132, 348)
 
-[node name="Cup" parent="." instance=ExtResource("4_am8r4")]
-position = Vector2(205, 480)
+[node name="Game_UI" parent="." instance=ExtResource("5_qlull")]

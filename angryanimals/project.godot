@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="AngryAnimals"
-run/main_scene="res://Scenes/Lavelbase/lavelbase.tscn"
+run/main_scene="res://Scenes/Main/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Signalhub="*res://globals/signalhub.gd"
+ScoreManager="*res://globals/score_manager.gd"
 
 [display]
 

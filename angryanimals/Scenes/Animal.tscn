@@ -33,6 +33,7 @@ stream = ExtResource("2_r0klq")
 
 [node name="Launchsound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_xhbhe")
+volume_db = -21.936
 
 [node name="KickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ejquv")

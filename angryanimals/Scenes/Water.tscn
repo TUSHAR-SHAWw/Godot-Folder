@@ -22,5 +22,6 @@ region_filter_clip_enabled = true
 
 [node name="splashsound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_o45pa")
+volume_db = -20.472
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

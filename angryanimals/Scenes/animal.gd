@@ -72,6 +72,7 @@ func _process(_delta: float) -> void:
 		arrow.scale.x
 	]
 
+
 func startdragging()->void:
 	arrow.show()
 	_is_dragging=true
@@ -89,10 +90,11 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 func start_release()->void:
 	launchsound.play()
-	arrow.show()
+	arrow.hide()
 	_is_dragging=false
 	freeze=false
 	apply_central_impulse(calculate_impulse())
+	Signalhub.emit_attempt_made()
 
 func handle_dragging()->void:
 	var _new_dragged=get_global_mouse_position()-_drag_start
