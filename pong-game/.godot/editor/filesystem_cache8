@@ -1,0 +1,10 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1781679490
+icon.svg::CompressedTexture2D::2732239684505433837::1781669690::1781669700::1::::<><>::
+::res://Assets/::1781670375
+bg.tres::GradientTexture2D::3848401270740222866::1781670348::0::1::::<><>::
+playerboard.tres::GradientTexture2D::1478187499504611383::1781670375::0::1::::<><>::
+::res://Scenes/::1781673139
+game.tscn::PackedScene::8699957231149911859::1781672496::0::1::::<><>::uid://bu3guvkt2i73k::::res://Assets/bg.tres<>uid://cmcqgvbl0at8c::::res://Scenes/player.tscn
+player.gd::GDScript::-1::1781673139::0::1::::Player<>Node2D<>::
+player.tscn::PackedScene::5620219538266781664::1781672497::0::1::::<><>::uid://vcbsdfwp18hf::::res://Assets/playerboard.tres<>res://Scenes/player.gd

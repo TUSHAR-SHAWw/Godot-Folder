@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://dv7la3lvps54b"]
+
+[ext_resource type="Texture2D" uid="uid://bu3guvkt2i73k" path="res://Assets/bg.tres" id="1_e5qe0"]
+[ext_resource type="PackedScene" uid="uid://cmcqgvbl0at8c" path="res://Scenes/player.tscn" id="2_dowfl"]
+[ext_resource type="PackedScene" uid="uid://dymaaggquw8vg" path="res://Scenes/ball.tscn" id="3_qjm3k"]
+[ext_resource type="PackedScene" uid="uid://bm8hrselv7h73" path="res://Scenes/border.tscn" id="4_1qaln"]
+[ext_resource type="PackedScene" uid="uid://bfkt1lar2c3r1" path="res://Scenes/player_2.tscn" id="5_p6jft"]
+[ext_resource type="Script" path="res://Scenes/player2.gd" id="6_r7w41"]
+
+[node name="Game" type="Node2D"]
+
+[node name="bg" type="Sprite2D" parent="."]
+scale = Vector2(18, 10.1563)
+texture = ExtResource("1_e5qe0")
+centered = false
+
+[node name="player1" parent="." instance=ExtResource("2_dowfl")]
+position = Vector2(16, 65)
+
+[node name="ball" parent="." instance=ExtResource("3_qjm3k")]
+position = Vector2(83, 75)
+
+[node name="Border" parent="." instance=ExtResource("4_1qaln")]
+
+[node name="player2" parent="." instance=ExtResource("5_p6jft")]
+position = Vector2(1137, 63)
+script = ExtResource("6_r7w41")

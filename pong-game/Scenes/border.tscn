@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm8hrselv7h73"]
+
+[ext_resource type="Script" path="res://Scenes/border.gd" id="1_anixx"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b6ya0"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_13kyl"]
+
+[node name="Border" type="Area2D"]
+script = ExtResource("1_anixx")
+
+[node name="maxup" type="CollisionShape2D" parent="."]
+position = Vector2(582, 0)
+shape = SubResource("WorldBoundaryShape2D_b6ya0")
+
+[node name="maxdown" type="CollisionShape2D" parent="."]
+position = Vector2(0, 647)
+shape = SubResource("WorldBoundaryShape2D_13kyl")
