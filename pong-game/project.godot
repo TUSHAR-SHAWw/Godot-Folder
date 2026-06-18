@@ -15,6 +15,14 @@ run/main_scene="res://Scenes/game.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Signalhub="*res://signalhub.gd"
+
+[global_group]
+
+ball=""
+
 [input]
 
 up={

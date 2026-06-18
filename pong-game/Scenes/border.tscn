@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bm8hrselv7h73"]
+[gd_scene load_steps=9 format=3 uid="uid://bm8hrselv7h73"]
 
 [ext_resource type="Script" path="res://Scenes/border.gd" id="1_anixx"]
 
@@ -7,13 +7,47 @@ normal = Vector2(0, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_13kyl"]
 
+[sub_resource type="Gradient" id="Gradient_shkk0"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d6udn"]
+gradient = SubResource("Gradient_shkk0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ja5xa"]
+size = Vector2(43, 671)
+
+[sub_resource type="Gradient" id="Gradient_uqkcg"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_edmk2"]
+gradient = SubResource("Gradient_uqkcg")
+
 [node name="Border" type="Area2D"]
 script = ExtResource("1_anixx")
 
 [node name="maxup" type="CollisionShape2D" parent="."]
-position = Vector2(582, 0)
 shape = SubResource("WorldBoundaryShape2D_b6ya0")
 
 [node name="maxdown" type="CollisionShape2D" parent="."]
-position = Vector2(0, 647)
 shape = SubResource("WorldBoundaryShape2D_13kyl")
+
+[node name="dangerright" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="dangerright"]
+scale = Vector2(0.7, 10.5)
+texture = SubResource("GradientTexture2D_d6udn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dangerright"]
+shape = SubResource("RectangleShape2D_ja5xa")
+
+[node name="dangerleft" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="dangerleft"]
+scale = Vector2(0.7, 10.5)
+texture = SubResource("GradientTexture2D_edmk2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dangerleft"]
+shape = SubResource("RectangleShape2D_ja5xa")
+
+[connection signal="body_entered" from="dangerright" to="." method="_on_danger_body_entered"]
+[connection signal="body_entered" from="dangerleft" to="." method="_on_danger_body_entered"]

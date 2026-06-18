@@ -15,7 +15,7 @@ gradient = SubResource("Gradient_cp1b0")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6sl2k"]
 size = Vector2(38, 38)
 
-[node name="ball" type="CharacterBody2D"]
+[node name="ball" type="CharacterBody2D" groups=["ball"]]
 script = ExtResource("1_1j4w0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

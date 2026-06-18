@@ -4,11 +4,12 @@ class_name Player
 
 @export var Speed =30000
 var direction=0
+
 # Called when the node enters the scene tree for the first time. 
 func _ready() -> void:
 	pass
 
-func setinputvelocity(delta):
+func setinputvelocity(delta): 
 	direction=0
 	velocity.y=0
 	if Input.is_action_pressed("up"):
@@ -18,11 +19,6 @@ func setinputvelocity(delta):
 	velocity.y=Speed*delta*direction
 	move_and_slide()
 
-		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	setinputvelocity(delta)
-	
-	
-	
-	
