@@ -2,27 +2,26 @@ extends CharacterBody2D
 
 class_name Player2
 
-@export var Speed =30000
-var direction=0
-# Called when the node enters the scene tree for the first time. 
-func _ready() -> void:
-	pass
+@export var Speed :int=600
+var direction:int
+var startx:float
 
-func setinputvelocity(delta):
+#func _ready() -> void:
+	#call_deferred("setstartx")
+	#
+
+func setinputvelocity(delta): 
 	direction=0
-	velocity.y=0
+	
 	if Input.is_action_pressed("ui_up"):
 		direction=-1
 	if Input.is_action_pressed("ui_down"):
 		direction=1
-	velocity.y=Speed*delta*direction
+	velocity=Vector2(0,Speed*direction)
 	move_and_slide()
-
-		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	
+#
+## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	setinputvelocity(delta)
-	
-	
-	
 	

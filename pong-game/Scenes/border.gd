@@ -8,11 +8,18 @@ func _ready() -> void:
 	resize_borders()
 
 
-func _on_danger_body_entered(body: Node2D) -> void:
+func _on_danger_right_body_entered(body: Node2D) -> void:
 	if body is Ball:
 		Signalhub.emit_ball_die()
 		body.queue_free()
-
+		Signalhub.emit_p2_damaged()
+		
+	
+func _on_dangerleft_body_entered(body: Node2D) -> void:
+	if body is Ball:
+		Signalhub.emit_ball_die()
+		body.queue_free()
+		Signalhub.emit_p1_damaged()
 func resize_borders():
 	var size = get_viewport_rect().size
 	maxup.position = Vector2(size.x/2,0)

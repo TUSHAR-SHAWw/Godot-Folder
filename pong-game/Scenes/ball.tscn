@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dymaaggquw8vg"]
+[gd_scene format=3 uid="uid://dymaaggquw8vg"]
 
-[ext_resource type="Script" path="res://Scenes/ball.gd" id="1_1j4w0"]
+[ext_resource type="Script" uid="uid://c4i84c6hui3te" path="res://Scenes/ball.gd" id="1_1j4w0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n64xn"]
 size = Vector2(32, 32)
@@ -12,24 +12,13 @@ colors = PackedColorArray(0, 1, 0, 1, 0, 0.662745, 0.847059, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_02b40"]
 gradient = SubResource("Gradient_cp1b0")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6sl2k"]
-size = Vector2(38, 38)
-
-[node name="ball" type="CharacterBody2D" groups=["ball"]]
+[node name="ball" type="CharacterBody2D" unique_id=616673739 groups=["ball"]]
 script = ExtResource("1_1j4w0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1881043361]
 shape = SubResource("RectangleShape2D_n64xn")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1304219247]
 position = Vector2(-1.90735e-06, -1.90735e-06)
 scale = Vector2(0.515625, 0.515625)
 texture = SubResource("GradientTexture2D_02b40")
-
-[node name="detection area" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="detection area"]
-shape = SubResource("RectangleShape2D_6sl2k")
-
-[connection signal="area_entered" from="detection area" to="." method="_on_detection_area_area_entered"]
-[connection signal="body_entered" from="detection area" to="." method="_on_detection_area_body_entered"]

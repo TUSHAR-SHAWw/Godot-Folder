@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bd5nspe4pqxrw"]
+
+[ext_resource type="Script" uid="uid://dy7e17juf7oi4" path="res://Scenes/loading.gd" id="1_iyqkx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jn183"]
+font_size = 75
+font_color = Color(0, 0, 0, 1)
+outline_size = 9
+
+[node name="Loading" type="Control" unique_id=1808069522]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iyqkx")
+
+[node name="Label" type="Label" parent="." unique_id=721460997]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading"
+label_settings = SubResource("LabelSettings_jn183")
+
+[node name="Timer" type="Timer" parent="." unique_id=1505069559]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

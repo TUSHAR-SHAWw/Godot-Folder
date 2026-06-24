@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://dt6bpbfru31nb"]
+
+[ext_resource type="Script" uid="uid://cwagdx1bu8jo0" path="res://Scenes/game_over.gd" id="1_j06ji"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_chs6w"]
+font_size = 80
+font_color = Color(1, 0, 0, 1)
+outline_size = 9
+
+[sub_resource type="LabelSettings" id="LabelSettings_gyslk"]
+font_size = 70
+font_color = Color(0, 0.92549, 0, 1)
+outline_size = 9
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Game Over" type="Control" unique_id=198538212]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_j06ji")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=613892023]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1106404702]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=509541748]
+layout_mode = 2
+size_flags_vertical = 10
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_chs6w")
+horizontal_alignment = 1
+
+[node name="wonlabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1215793909]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Player Won"
+label_settings = SubResource("LabelSettings_gyslk")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=106734202]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme_override_constants/outline_size = 6
+theme_override_constants/h_separation = 7
+theme_override_font_sizes/font_size = 30
+text = "Try Again"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

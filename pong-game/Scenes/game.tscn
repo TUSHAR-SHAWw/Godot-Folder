@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dv7la3lvps54b"]
+[gd_scene load_steps=7 format=3 uid="uid://dv7la3lvps54b"]
 
 [ext_resource type="Texture2D" uid="uid://bu3guvkt2i73k" path="res://Assets/bg.tres" id="1_e5qe0"]
 [ext_resource type="Script" path="res://Scenes/game.gd" id="1_tkrc2"]
 [ext_resource type="PackedScene" uid="uid://bm8hrselv7h73" path="res://Scenes/border.tscn" id="4_1qaln"]
+[ext_resource type="PackedScene" uid="uid://blfjjalerdtye" path="res://Scenes/game_ui.tscn" id="4_478cq"]
+[ext_resource type="PackedScene" uid="uid://dt6bpbfru31nb" path="res://Scenes/game_over.tscn" id="5_ufup6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2w8fo"]
 size = Vector2(1261.5, 20)
@@ -24,5 +26,12 @@ position = Vector2(546.25, -11)
 shape = SubResource("RectangleShape2D_2w8fo")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Boardlimiter"]
-position = Vector2(582, 667)
+position = Vector2(581, 659)
 shape = SubResource("RectangleShape2D_2w8fo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Game UI" parent="CanvasLayer" instance=ExtResource("4_478cq")]
+
+[node name="Game Over" parent="CanvasLayer" instance=ExtResource("5_ufup6")]
+visible = false

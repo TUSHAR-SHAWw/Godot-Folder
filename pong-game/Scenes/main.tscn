@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4vqiclcsrr6b"]
+
+[ext_resource type="Texture2D" uid="uid://bu3guvkt2i73k" path="res://Assets/bg.tres" id="1_5cl4b"]
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_p0ulg"]
+[ext_resource type="LabelSettings" uid="uid://dvvarqb6sgjdh" path="res://Scenes/main.tres" id="3_fhbnd"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_p0ulg")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_5cl4b")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "PONG GAME"
+label_settings = ExtResource("3_fhbnd")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Start Game"
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]

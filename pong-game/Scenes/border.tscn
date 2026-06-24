@@ -49,5 +49,5 @@ texture = SubResource("GradientTexture2D_edmk2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dangerleft"]
 shape = SubResource("RectangleShape2D_ja5xa")
 
-[connection signal="body_entered" from="dangerright" to="." method="_on_danger_body_entered"]
-[connection signal="body_entered" from="dangerleft" to="." method="_on_danger_body_entered"]
+[connection signal="body_entered" from="dangerright" to="." method="_on_danger_right_body_entered"]
+[connection signal="body_entered" from="dangerleft" to="." method="_on_dangerleft_body_entered"]
