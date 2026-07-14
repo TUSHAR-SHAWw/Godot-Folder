@@ -1,11 +1,3 @@
-res://Scenes/ball.tscn
-res://Assets/playerboard.tres
+res://Scenes/game.tscn
 res://Assets/bg.tres
-res://Scenes/player.gd
-res://Scenes/ball.gd
-res://Scenes/player_2.tscn
-res://Scenes/player2.gd
-res://Scenes/loading.tscn
-res://Scenes/game_over.gd
-res://Scenes/loading.gd
-res://Scenes/game_over.tscn
+res://Assets/playerboard.tres

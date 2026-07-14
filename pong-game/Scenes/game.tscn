@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv7la3lvps54b"]
+[gd_scene format=3 uid="uid://dv7la3lvps54b"]
 
 [ext_resource type="Texture2D" uid="uid://bu3guvkt2i73k" path="res://Assets/bg.tres" id="1_e5qe0"]
-[ext_resource type="Script" path="res://Scenes/game.gd" id="1_tkrc2"]
+[ext_resource type="Script" uid="uid://df8h8yob0v20j" path="res://Scenes/game.gd" id="1_tkrc2"]
 [ext_resource type="PackedScene" uid="uid://bm8hrselv7h73" path="res://Scenes/border.tscn" id="4_1qaln"]
 [ext_resource type="PackedScene" uid="uid://blfjjalerdtye" path="res://Scenes/game_ui.tscn" id="4_478cq"]
 [ext_resource type="PackedScene" uid="uid://dt6bpbfru31nb" path="res://Scenes/game_over.tscn" id="5_ufup6"]
@@ -9,29 +9,29 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2w8fo"]
 size = Vector2(1261.5, 20)
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" unique_id=1352266249]
 script = ExtResource("1_tkrc2")
 
-[node name="bg" type="Sprite2D" parent="."]
+[node name="bg" type="Sprite2D" parent="." unique_id=1686194658]
 scale = Vector2(18, 10.1563)
 texture = ExtResource("1_e5qe0")
 centered = false
 
-[node name="Border" parent="." instance=ExtResource("4_1qaln")]
+[node name="Border" parent="." unique_id=7413875 instance=ExtResource("4_1qaln")]
 
-[node name="Boardlimiter" type="StaticBody2D" parent="."]
+[node name="Boardlimiter" type="StaticBody2D" parent="." unique_id=276356073]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boardlimiter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boardlimiter" unique_id=444207277]
 position = Vector2(546.25, -11)
 shape = SubResource("RectangleShape2D_2w8fo")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boardlimiter"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boardlimiter" unique_id=300163681]
 position = Vector2(581, 659)
 shape = SubResource("RectangleShape2D_2w8fo")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1231289841]
 
-[node name="Game UI" parent="CanvasLayer" instance=ExtResource("4_478cq")]
+[node name="Game UI" parent="CanvasLayer" unique_id=1058762312 instance=ExtResource("4_478cq")]
 
-[node name="Game Over" parent="CanvasLayer" instance=ExtResource("5_ufup6")]
+[node name="Game Over" parent="CanvasLayer" unique_id=537955648 instance=ExtResource("5_ufup6")]
 visible = false
