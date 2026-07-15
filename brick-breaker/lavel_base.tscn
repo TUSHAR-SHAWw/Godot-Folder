@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bdr1x3qp6c6o" path="res://ball.tscn" id="3_c1dmx"]
 [ext_resource type="PackedScene" uid="uid://b0afnhv8kgvmr" path="res://brick_map.tscn" id="3_ile82"]
 [ext_resource type="PackedScene" uid="uid://cbgclrwnfemtx" path="res://puddle.tscn" id="4_kq2oq"]
+[ext_resource type="PackedScene" uid="uid://dbbkpf1wpupq4" path="res://game_ui.tscn" id="6_4y7x1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kq2oq"]
 size = Vector2(12, 437)
@@ -23,7 +24,7 @@ scale = Vector2(1.9133859, 3.663793)
 texture = ExtResource("1_cmvah")
 centered = false
 region_enabled = true
-region_rect = Rect2(928.9101, 123.97627, 127.093506, 116.718445)
+region_rect = Rect2(46, 123, 127.093506, 116.718445)
 
 [node name="BrickContainer" type="Node2D" parent="." unique_id=575251575]
 
@@ -49,3 +50,7 @@ shape = SubResource("RectangleShape2D_wvhbo")
 
 [node name="puddle" parent="." unique_id=325068203 instance=ExtResource("4_kq2oq")]
 position = Vector2(117, 414)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1649858239]
+
+[node name="Game_UI" parent="CanvasLayer" unique_id=532167470 instance=ExtResource("6_4y7x1")]

@@ -16,9 +16,9 @@ func  _physics_process(delta: float) -> void:
 		linear_velocity = linear_velocity.normalized() * speed
 	var colliders=get_colliding_bodies()
 	for collider in colliders:
-		print (collider.name)
 		if collider is Brick:
 			collider.queue_free()
+			Signalbus.emit_tile_hit()
 	
 
 

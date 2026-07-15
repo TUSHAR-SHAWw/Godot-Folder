@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dbbkpf1wpupq4"]
+
+[ext_resource type="Script" uid="uid://dwkxm8ns1lcvx" path="res://game_ui.gd" id="1_ue6oa"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4y7x1"]
+font_size = 12
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Game_UI" type="Control" unique_id=532167470]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ue6oa")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=439213790]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="bricklabel" type="Label" parent="MarginContainer" unique_id=1116218939]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 11
+text = "Bricks : 0"
+label_settings = SubResource("LabelSettings_4y7x1")
