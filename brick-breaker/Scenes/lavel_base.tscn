@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cowi4aoeal6nr"]
 
-[ext_resource type="Texture2D" uid="uid://vqx7a7i8v26c" path="res://Assets/happy_thoughts.png" id="1_cmvah"]
-[ext_resource type="Script" uid="uid://byc3qivklkn00" path="res://lavel_base.gd" id="1_ile82"]
-[ext_resource type="PackedScene" uid="uid://bdr1x3qp6c6o" path="res://ball.tscn" id="3_c1dmx"]
-[ext_resource type="PackedScene" uid="uid://b0afnhv8kgvmr" path="res://brick_map.tscn" id="3_ile82"]
-[ext_resource type="PackedScene" uid="uid://cbgclrwnfemtx" path="res://puddle.tscn" id="4_kq2oq"]
-[ext_resource type="PackedScene" uid="uid://dbbkpf1wpupq4" path="res://game_ui.tscn" id="6_4y7x1"]
+[ext_resource type="Script" uid="uid://byc3qivklkn00" path="res://Scripts/lavel_base.gd" id="1_ile82"]
+[ext_resource type="Texture2D" uid="uid://i2x7d0j0fkjk" path="res://Assets/gamebg.png" id="2_5rjby"]
+[ext_resource type="PackedScene" uid="uid://bdr1x3qp6c6o" path="res://Scenes/ball.tscn" id="3_c1dmx"]
+[ext_resource type="PackedScene" uid="uid://b0afnhv8kgvmr" path="res://Scenes/brick_map.tscn" id="3_ile82"]
+[ext_resource type="PackedScene" uid="uid://cbgclrwnfemtx" path="res://Scenes/puddle.tscn" id="4_kq2oq"]
+[ext_resource type="PackedScene" uid="uid://dbbkpf1wpupq4" path="res://Scenes/game_ui.tscn" id="6_4y7x1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kq2oq"]
 size = Vector2(12, 437)
@@ -20,10 +20,9 @@ size = Vector2(241, 10)
 script = ExtResource("1_ile82")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=580984601]
-scale = Vector2(1.9133859, 3.663793)
-texture = ExtResource("1_cmvah")
+scale = Vector2(0.31, 0.31)
+texture = ExtResource("2_5rjby")
 centered = false
-region_enabled = true
 region_rect = Rect2(46, 123, 127.093506, 116.718445)
 
 [node name="BrickContainer" type="Node2D" parent="." unique_id=575251575]
@@ -51,6 +50,6 @@ shape = SubResource("RectangleShape2D_wvhbo")
 [node name="puddle" parent="." unique_id=325068203 instance=ExtResource("4_kq2oq")]
 position = Vector2(117, 414)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1649858239]
+[node name="Ui Container" type="CanvasLayer" parent="." unique_id=1649858239]
 
-[node name="Game_UI" parent="CanvasLayer" unique_id=532167470 instance=ExtResource("6_4y7x1")]
+[node name="Game_UI" parent="Ui Container" unique_id=532167470 instance=ExtResource("6_4y7x1")]

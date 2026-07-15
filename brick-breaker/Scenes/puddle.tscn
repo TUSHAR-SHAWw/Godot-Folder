@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cbgclrwnfemtx"]
 
 [ext_resource type="Texture2D" uid="uid://vqx7a7i8v26c" path="res://Assets/happy_thoughts.png" id="1_3jn3q"]
-[ext_resource type="Script" uid="uid://diecv15osqodp" path="res://puddle.gd" id="1_5h5e0"]
+[ext_resource type="Script" uid="uid://diecv15osqodp" path="res://Scripts/puddle.gd" id="1_5h5e0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wvhbo"]
 size = Vector2(55.125, 12)

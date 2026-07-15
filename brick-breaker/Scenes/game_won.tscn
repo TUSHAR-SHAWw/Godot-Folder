@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://ccmchpcgepm5o"]
 
+[ext_resource type="Script" uid="uid://rvdvlvg5kpjg" path="res://Scripts/game_won.gd" id="1_glrca"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_ag0bx"]
 font_size = 24
 font_color = Color(0.94509804, 0.6156863, 1, 1)
@@ -13,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_glrca")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=696828620]
 layout_mode = 1
@@ -43,3 +46,5 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Next Level"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
