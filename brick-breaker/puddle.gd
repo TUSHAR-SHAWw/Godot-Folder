@@ -14,3 +14,4 @@ func _process(delta: float) -> void:
 	position.x=clamp(position.x,28,get_viewport_rect().size.x-28)
 	direction=0
 	
+	
