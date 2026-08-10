@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b7ofnx4gvwjqs"]
+
+[ext_resource type="PackedScene" uid="uid://cowi4aoeal6nr" path="res://lavel_base.tscn" id="1_80nbo"]
+
+[node name="Game" type="Node2D" unique_id=942835227]
+
+[node name="LavelContainer" type="Node" parent="." unique_id=1274816576]
+
+[node name="LavelBase" parent="." unique_id=12663747 instance=ExtResource("1_80nbo")]

@@ -1,0 +1,6 @@
+res://Scenes/player.tscn
+res://Scenes/Maps/main_map.tscn
+res://Scenes/player.gd
+res://Scenes/Maps/Grass Floor.tscn
+res://Scenes/Maps/base_floor.gd
+res://Scenes/Maps/base_floor.tscn

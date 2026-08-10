@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://df1x1nsqbrthd"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/base_floor.gd" id="1_ctyy5"]
+
+[sub_resource type="TileSet" id="TileSet_ttfrl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uumpp"]
+size = Vector2(133, 126)
+
+[node name="Base Floor" type="Node2D"]
+script = ExtResource("1_ctyy5")
+
+[node name="BG" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_ttfrl")
+
+[node name="Ground" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_ttfrl")
+
+[node name="objects" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_ttfrl")
+
+[node name="platform" type="Area2D" parent="."]
+position = Vector2(561, 253)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
+position = Vector2(34.5, 3)
+shape = SubResource("RectangleShape2D_uumpp")
+
+[connection signal="body_entered" from="platform" to="." method="_on_platform_body_entered"]
+[connection signal="body_exited" from="platform" to="." method="_on_platform_body_exited"]

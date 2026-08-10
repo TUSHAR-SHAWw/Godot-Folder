@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8yfafwwi2q00"]
+
+[ext_resource type="PackedScene" uid="uid://df1x1nsqbrthd" path="res://Scenes/Maps/base_floor.tscn" id="1_oaivk"]
+
+[node name="Grass Floor" instance=ExtResource("1_oaivk")]
