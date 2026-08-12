@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://xgb2xkmi3p72"]
+
+[ext_resource type="Script" uid="uid://b4gbn5in4nmoe" path="res://Component/HealthComponent.gd" id="1_qv56c"]
+[ext_resource type="Script" uid="uid://blhopudt5aadd" path="res://Resourses/HeathResourse.gd" id="2_jfhxu"]
+
+[sub_resource type="Resource" id="Resource_qv56c"]
+script = ExtResource("2_jfhxu")
+metadata/_custom_type_script = "uid://blhopudt5aadd"
+
+[node name="HeathComponent" type="Node" unique_id=1050028878]
+script = ExtResource("1_qv56c")
+data = SubResource("Resource_qv56c")

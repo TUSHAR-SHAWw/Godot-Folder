@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dbo4nb7ilel71"]
+
+[ext_resource type="Texture2D" uid="uid://cge2eb4yyqr3l" path="res://Assets/scene/colored_castle.png" id="1_xyhk1"]
+[ext_resource type="PackedScene" uid="uid://bpls7yy2kd4j5" path="res://Snece/player.tscn" id="2_myfpv"]
+
+[node name="game" type="Node2D" unique_id=1581067951]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1926993734]
+scale = Vector2(1.1259766, 0.8448781)
+texture = ExtResource("1_xyhk1")
+centered = false
+
+[node name="Player" parent="." unique_id=2050541289 instance=ExtResource("2_myfpv")]
+position = Vector2(527, 310)

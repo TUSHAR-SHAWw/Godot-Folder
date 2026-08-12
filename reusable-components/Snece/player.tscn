@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bpls7yy2kd4j5"]
+
+[ext_resource type="Script" uid="uid://c2bp5fheuff7" path="res://Snece/player.gd" id="1_47av1"]
+[ext_resource type="Texture2D" uid="uid://ceemckeivjud8" path="res://Assets/player/parrot.png" id="1_pha6u"]
+[ext_resource type="PackedScene" uid="uid://xgb2xkmi3p72" path="res://Component/heath_component.tscn" id="3_cjtcb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ag0bx"]
+radius = 25.019993
+
+[node name="Player" type="CharacterBody2D" unique_id=2050541289]
+script = ExtResource("1_47av1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2094685749]
+scale = Vector2(0.195, 0.195)
+texture = ExtResource("1_pha6u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1990089311]
+shape = SubResource("CircleShape2D_ag0bx")
+
+[node name="HeathComponent" parent="." unique_id=1050028878 instance=ExtResource("3_cjtcb")]
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=104798731]
+offset_left = -100.0
+offset_top = -52.0
+offset_right = 117.0
+offset_bottom = -25.0
+size_flags_horizontal = 6
+value = 100.0
