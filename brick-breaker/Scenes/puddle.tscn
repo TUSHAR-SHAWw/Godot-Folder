@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://cbgclrwnfemtx"]
 
-[ext_resource type="Texture2D" uid="uid://vqx7a7i8v26c" path="res://Assets/happy_thoughts.png" id="1_3jn3q"]
 [ext_resource type="Script" uid="uid://diecv15osqodp" path="res://Scripts/puddle.gd" id="1_5h5e0"]
+[ext_resource type="Texture2D" uid="uid://b0imk27fh7yhc" path="res://Assets/gemini assets.png" id="2_jstgl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wvhbo"]
-size = Vector2(55.125, 12)
+size = Vector2(55.125, 18)
 
 [node name="puddle" type="StaticBody2D" unique_id=1556671745]
 script = ExtResource("1_5h5e0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=448939115]
-scale = Vector2(0.375, 0.12)
-texture = ExtResource("1_3jn3q")
+scale = Vector2(0.275, 0.275)
+texture = ExtResource("2_jstgl")
 region_enabled = true
-region_rect = Rect2(178, 129, 146, 100)
+region_rect = Rect2(644.1447, 193.25, 201.67108, 66.19739)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=804948724]
 shape = SubResource("RectangleShape2D_wvhbo")

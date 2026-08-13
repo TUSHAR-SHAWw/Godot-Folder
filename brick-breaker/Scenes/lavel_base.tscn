@@ -6,6 +6,72 @@
 [ext_resource type="PackedScene" uid="uid://b0afnhv8kgvmr" path="res://Scenes/brick_map.tscn" id="3_ile82"]
 [ext_resource type="PackedScene" uid="uid://cbgclrwnfemtx" path="res://Scenes/puddle.tscn" id="4_kq2oq"]
 [ext_resource type="PackedScene" uid="uid://dbbkpf1wpupq4" path="res://Scenes/game_ui.tscn" id="6_4y7x1"]
+[ext_resource type="Texture2D" uid="uid://bn4vcda882i2s" path="res://Assets/Gemini_Generated_Image_z5u4zdz5u4zdz5u4.png" id="7_2ve6u"]
+[ext_resource type="PackedScene" uid="uid://c4mm3yvj0bquf" path="res://Scenes/killzone.tscn" id="8_fy80l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy80l"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(0, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmyob"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(258, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cshs7"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(516, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3oa1f"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(774, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0hf6"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(1032, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb23d"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(1290, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdbs8"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(1548, 0, 258, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjl4d"]
+atlas = ExtResource("7_2ve6u")
+region = Rect2(1806, 0, 258, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xeyld"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy80l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmyob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cshs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3oa1f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0hf6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tb23d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdbs8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjl4d")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 4.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kq2oq"]
 size = Vector2(12, 437)
@@ -18,6 +84,14 @@ size = Vector2(241, 10)
 
 [node name="LavelBase" type="Node2D" unique_id=12663747]
 script = ExtResource("1_ile82")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1822676936]
+visible = false
+sprite_frames = SubResource("SpriteFrames_xeyld")
+autoplay = "default"
+frame = 2
+frame_progress = 0.43762255
+centered = false
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=580984601]
 scale = Vector2(0.31, 0.31)
@@ -48,8 +122,11 @@ position = Vector2(119.5, -5)
 shape = SubResource("RectangleShape2D_wvhbo")
 
 [node name="puddle" parent="." unique_id=325068203 instance=ExtResource("4_kq2oq")]
-position = Vector2(117, 414)
+position = Vector2(117, 407)
 
 [node name="Ui Container" type="CanvasLayer" parent="." unique_id=1649858239]
 
 [node name="Game_UI" parent="Ui Container" unique_id=532167470 instance=ExtResource("6_4y7x1")]
+
+[node name="Killzone" parent="." unique_id=1614115991 instance=ExtResource("8_fy80l")]
+position = Vector2(1, 422)

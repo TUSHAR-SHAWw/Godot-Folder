@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c4mm3yvj0bquf"]
+
+[ext_resource type="Script" uid="uid://c1iyk3g6c0pxy" path="res://Scenes/killzone.gd" id="1_jvagm"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_abi3o"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ifow5"]
+
+[node name="Killzone" type="Area2D" unique_id=1614115991]
+script = ExtResource("1_jvagm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=19208770]
+shape = SubResource("WorldBoundaryShape2D_abi3o")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1421774108]
+self_modulate = Color(1, 0, 0, 1)
+position = Vector2(120.25, 2.7500002)
+scale = Vector2(241.5, 6.5000005)
+texture = SubResource("CanvasTexture_ifow5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

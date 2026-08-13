@@ -1,4 +1,5 @@
 extends StaticBody2D
+class_name Puddle
 var direction:int=0
 var Speed:int=200
 

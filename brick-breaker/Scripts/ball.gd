@@ -9,7 +9,7 @@ func _ready() -> void:
 	moveBall()
 
 func moveBall()->void:
-	linear_velocity=direction*speed
+	linear_velocity=(direction*speed)
 
 func  _physics_process(delta: float) -> void:
 	if linear_velocity.length() > 0:
@@ -17,11 +17,6 @@ func  _physics_process(delta: float) -> void:
 	var colliders=get_colliding_bodies()
 	for collider in colliders:
 		if collider is Brick:
+			Signalbus.emit_tile_hit(collider.position)
 			collider.queue_free()
-			Signalbus.emit_tile_hit()
 	
-
-
-func _on_body_entered(body: Node) -> void:
-	if body is Brick:
-		body.queue_free()
