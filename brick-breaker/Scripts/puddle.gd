@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 	
 func _ready() -> void:
 	Signalbus.Powerup.connect(On_powerup)
-
+#
 func On_powerup(name):
 	if name == "wide":
 		print("wide is me")
