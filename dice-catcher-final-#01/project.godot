@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Dice Catcher Final #01"
 run/main_scene="uid://egow4vyunfsw"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
 
 [display]
