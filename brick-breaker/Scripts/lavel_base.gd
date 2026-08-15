@@ -7,10 +7,11 @@ extends Node2D
 const BRICKBASE = preload("uid://b0nya1v3cgehq")
 const GAME_WON = preload("uid://ccmchpcgepm5o")
 const POWER_UP = preload("uid://cp68c2blu5h13")
+@onready var puddle: Puddle = $puddle
 
 func _ready() -> void:
 	Signalbus.Tilehit.connect(on_tile_hit)
-	Signalbus.Powerup.connect(on_power_up)
+	Signalbus.Powerup.connect(On_powerup)
 	
 	for i in brick_map.get_used_cells():
 		var pos:Vector2=brick_map.to_global(brick_map.map_to_local(i))
@@ -40,5 +41,9 @@ func spawn_powerup(pos:Vector2)->void:
 	newpowerup.position=pos
 	add_child(newpowerup)
 
-func on_power_up(name)->void:
-	print(name)
+func On_powerup(name)->void:
+	var balls=get_tree().get_nodes_in_group("ball")
+	puddle.On_powerup(name)
+	for ball in balls:
+		if is_instance_valid(ball):
+			ball.On_powerup(name)
