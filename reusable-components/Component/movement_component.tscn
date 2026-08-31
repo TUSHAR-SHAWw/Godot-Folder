@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ke5cs15eqsqk"]
+
+[ext_resource type="Script" uid="uid://4o0ggow72r8i" path="res://gds/movement_component.gd" id="1_ptdap"]
+
+[node name="movement_component" type="Node" unique_id=1017243908]
+script = ExtResource("1_ptdap")
