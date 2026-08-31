@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://255e7oyrm1ef"]
+
+[ext_resource type="Texture2D" uid="uid://mdttf86vvwsi" path="res://Assets/Tilesets/Doors.png" id="1_j4u5k"]
+[ext_resource type="Script" uid="uid://bcl2xf0lxj1em" path="res://Scenes/base_gun.gd" id="1_s3qth"]
+
+[node name="BaseGun" type="Node2D" unique_id=691465027]
+script = ExtResource("1_s3qth")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1789793819]
+rotation = 1.5707964
+scale = Vector2(0.3125, 0.1875)
+texture = ExtResource("1_j4u5k")
+offset = Vector2(0, -40)

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://nir0iy3qatbl"]
+
+[ext_resource type="PackedScene" uid="uid://c8mhexudif0yy" path="res://Scenes/player.tscn" id="1_nh5p0"]
+[ext_resource type="PackedScene" uid="uid://c8yfafwwi2q00" path="res://Scenes/Maps/grass_floor.tscn" id="2_ahoup"]
+
+[node name="Game" type="Node2D" unique_id=769035712]
+
+[node name="Grass Floor" parent="." unique_id=82843564 instance=ExtResource("2_ahoup")]
+position = Vector2(0, 1)
+
+[node name="Player" parent="." unique_id=744506681 instance=ExtResource("1_nh5p0")]
+position = Vector2(326, 148)

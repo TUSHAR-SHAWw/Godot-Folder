@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://c8mhexudif0yy"]
+[gd_scene format=3 uid="uid://c8mhexudif0yy"]
 
 [ext_resource type="Texture2D" uid="uid://bjifyep2e7o2q" path="res://Assets/Characters/Basic Charakter Spritesheet.png" id="1_grepn"]
-[ext_resource type="Script" path="res://Scenes/player.gd" id="1_lfsov"]
+[ext_resource type="Script" uid="uid://dij7nli2k74y3" path="res://Scenes/player.gd" id="1_lfsov"]
+[ext_resource type="PackedScene" uid="uid://255e7oyrm1ef" path="res://Scenes/base_gun.tscn" id="3_6t5aa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bskvc"]
 atlas = ExtResource("1_grepn")
@@ -84,7 +85,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_emfe2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 10.0
 }, {
@@ -101,7 +102,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_opxos")
 }],
-"loop": true,
+"loop": 1,
 "name": &"downani",
 "speed": 5.0
 }, {
@@ -118,7 +119,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nc805")
 }],
-"loop": true,
+"loop": 1,
 "name": &"leftani",
 "speed": 5.0
 }, {
@@ -135,7 +136,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kqdrr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"rightani",
 "speed": 5.0
 }, {
@@ -152,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a1mlp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"upani",
 "speed": 5.0
 }]
@@ -160,16 +161,21 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_l6cug"]
 radius = 6.08276
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=744506681]
 script = ExtResource("1_lfsov")
 
-[node name="anispr" type="AnimatedSprite2D" parent="."]
+[node name="anispr" type="AnimatedSprite2D" parent="." unique_id=162679862]
 sprite_frames = SubResource("SpriteFrames_edber")
 animation = &"rightani"
 autoplay = "default"
 frame_progress = 0.234479
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=378899263]
 shape = SubResource("CircleShape2D_l6cug")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=475841389]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1811857339]
+zoom = Vector2(3, 3)
+
+[node name="BaseGun" parent="." unique_id=691465027 instance=ExtResource("3_6t5aa")]
