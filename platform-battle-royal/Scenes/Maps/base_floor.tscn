@@ -1,29 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://df1x1nsqbrthd"]
+[gd_scene format=3 uid="uid://df1x1nsqbrthd"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/base_floor.gd" id="1_ctyy5"]
+[ext_resource type="Script" uid="uid://do142tqv21ajs" path="res://Scenes/Maps/base_floor.gd" id="1_ctyy5"]
 
 [sub_resource type="TileSet" id="TileSet_ttfrl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uumpp"]
 size = Vector2(133, 126)
 
-[node name="Base Floor" type="Node2D"]
+[node name="Base Floor" type="Node2D" unique_id=1064134008]
 script = ExtResource("1_ctyy5")
 
-[node name="BG" type="TileMapLayer" parent="."]
+[node name="BG" type="TileMapLayer" parent="." unique_id=426053777]
 tile_set = SubResource("TileSet_ttfrl")
 
-[node name="Ground" type="TileMapLayer" parent="."]
+[node name="Ground" type="TileMapLayer" parent="." unique_id=1000199532]
 tile_set = SubResource("TileSet_ttfrl")
 
-[node name="objects" type="TileMapLayer" parent="."]
+[node name="objects" type="TileMapLayer" parent="." unique_id=611930900]
 tile_set = SubResource("TileSet_ttfrl")
 
-[node name="platform" type="Area2D" parent="."]
-position = Vector2(561, 253)
+[node name="platform" type="Area2D" parent="." unique_id=1628576347]
+position = Vector2(590, 313)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
-position = Vector2(34.5, 3)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform" unique_id=2005419542]
 shape = SubResource("RectangleShape2D_uumpp")
 
 [connection signal="body_entered" from="platform" to="." method="_on_platform_body_entered"]

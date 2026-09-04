@@ -10,7 +10,7 @@ bounce = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
 radius = 7.0
 
-[node name="Ball" type="RigidBody2D" unique_id=886404861]
+[node name="Ball" type="RigidBody2D" unique_id=886404861 groups=["ball"]]
 physics_material_override = SubResource("PhysicsMaterial_41u45")
 gravity_scale = 0.0
 can_sleep = false
@@ -29,5 +29,10 @@ region_rect = Rect2(537, 196, 69, 68)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1200568539]
 shape = SubResource("CircleShape2D_wvhbo")
+
+[node name="Debug" type="Label" parent="." unique_id=1660107018]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

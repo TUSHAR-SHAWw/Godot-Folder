@@ -2,7 +2,7 @@ extends StaticBody2D
 class_name Puddle
 var direction:int=0
 var Speed:int=200
-
+var WidePowerTime=10
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -14,5 +14,15 @@ func _process(delta: float) -> void:
 	position.x+=direction*Speed*delta
 	position.x=clamp(position.x,28,get_viewport_rect().size.x-28)
 	direction=0
+	
+func _ready() -> void:
+	pass
+
+func On_powerup(name):
+	if name == "wide":
+		print("wide is me")
+		scale.x=1.5
+		await get_tree().create_timer(WidePowerTime).timeout
+		scale.x=1
 	
 	

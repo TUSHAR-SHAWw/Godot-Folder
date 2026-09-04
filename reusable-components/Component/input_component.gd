@@ -1,20 +1,37 @@
 extends Node
-class_name InputComponent
-var inputs={"Left":KEY_D,"Right":KEY_A,"Up":KEY_W,"Down":KEY_S}
-	
-func set_Inputs():
-	for input in inputs:
-		if not InputMap.has_action(input):
-			InputMap.add_action(input)
-		var event=InputEventKey.new()
-		event.physical_keycode=inputs[input]
-		if not InputMap.action_has_event(input, event):
-			InputMap.action_add_event(input, event)
-# Called when the node enters the scene tree for the first time.
+
+class_name input_component
+var input_array:Array
+const inputs:={
+	"up":KEY_W,
+	"down":KEY_S,
+	"left":KEY_A,
+	"right":KEY_D,
+	"jump":KEY_SPACE
+}
+
 func _ready() -> void:
-	set_Inputs()
+	setupinputs()
 
+func update_input()->Array:
+	
+	return [move_input(),jump_input()]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func move_input()->Vector2:
+	var direction=Input.get_vector("left","right","up","down",)
+	return direction
+
+func jump_input()->bool:
+	return Input.is_action_just_pressed("jump")
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		input_array.append(event)
+	
+func setupinputs() -> void:
+	for action in inputs:
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			var key=InputEventKey.new()
+			key.physical_keycode=inputs[action]
+			InputMap.action_add_event(action,key)
