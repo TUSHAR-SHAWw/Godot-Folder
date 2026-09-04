@@ -19,6 +19,10 @@ run/main_scene="uid://nir0iy3qatbl"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalHub="*uid://dq1ejtf6jdhqs"
+
 [display]
 
 window/stretch/mode="canvas_items"

@@ -1,4 +1,7 @@
+res://Scenes/bullet.tscn
+res://Scenes/bullet.gd
+res://Scenes/Maps/game.tscn
 res://Scenes/player.tscn
-res://Scenes/Maps/grass_floor.tscn
-res://Scenes/base_gun.tscn
+res://Scenes/player.gd
 res://Scenes/base_gun.gd
+res://Scenes/base_gun.tscn

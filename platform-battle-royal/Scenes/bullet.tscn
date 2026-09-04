@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cxghpsug3a7kp"]
+
+[ext_resource type="Texture2D" uid="uid://dqb50lk2okcv0" path="res://Assets/Objects/Egg item.png" id="1_j2wod"]
+[ext_resource type="Script" uid="uid://cvty8ecyc5h5p" path="res://Scenes/bullet.gd" id="1_oduel"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wvhbo"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_oduel"]
+resource_name = "fade"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ycag2"]
+_data = {
+&"fade": SubResource("Animation_oduel")
+}
+
+[node name="bullet" type="Area2D" unique_id=1738455251]
+script = ExtResource("1_oduel")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1870442943]
+texture = ExtResource("1_j2wod")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=21996769]
+shape = SubResource("CircleShape2D_wvhbo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=508386245]
+libraries/ = SubResource("AnimationLibrary_ycag2")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
