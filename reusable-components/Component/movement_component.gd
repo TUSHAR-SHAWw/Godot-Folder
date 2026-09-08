@@ -11,6 +11,11 @@ class_name movement_component
 @export var use_gravity := true
 @export var wall_jump_speed := 70.0
 @export var wall_jump_lock_time := 0.15
+
+signal jumped
+signal landed
+
+
 var tween :Tween
 var wall_jump_timer := 0.0
 var coyote_timer:float=0
@@ -28,6 +33,8 @@ func _physics_process(delta: float) -> void:
 		coyote_timer=coyote_time
 	else:
 		coyote_timer-=delta
+
+			
 	if use_gravity and not parent.is_on_floor():
 		parent.velocity+=parent.get_gravity()*delta
 	wall_jump_timer-=delta
@@ -35,14 +42,11 @@ func _physics_process(delta: float) -> void:
 		parent.velocity.x=direction[0]*speed
 	jump()
 	parent.move_and_slide()
-	if not was_on_floor and parent.is_on_floor():
-		land_animation()
+	if was_on_floor and parent.is_on_floor():
+		was_on_floor=false
+		landed.emit()
+		print("land")
 
-func land_animation():
-	print("land")
-	tween=Tween.new()
-	#tween.tween_property(parent)
-	pass
 
 func jump() -> void:
 	if not can_Jump or not is_jumping:
@@ -52,12 +56,13 @@ func jump() -> void:
 		parent.velocity.y = jump_power
 		coyote_timer = 0
 		was_on_floor=true
+		jumped.emit()
 
 	elif can_wall_jump and parent.is_on_wall():
 		wall_jump_timer = wall_jump_lock_time
 		parent.velocity.y = jump_power
 		parent.velocity.x = parent.get_wall_normal().x * wall_jump_speed
-		
+		jumped.emit()
 
 func handle_inputs(inputs: Array) -> void:
 	direction=inputs[0]

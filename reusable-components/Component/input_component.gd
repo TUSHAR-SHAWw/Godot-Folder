@@ -10,6 +10,8 @@ const inputs:={
 	"jump":KEY_SPACE
 }
 
+
+
 func _ready() -> void:
 	setupinputs()
 
@@ -27,7 +29,7 @@ func jump_input()->bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		input_array.append(event)
-	
+		
 func setupinputs() -> void:
 	for action in inputs:
 		if not InputMap.has_action(action):

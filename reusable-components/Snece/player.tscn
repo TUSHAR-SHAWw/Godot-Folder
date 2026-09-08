@@ -74,3 +74,5 @@ value = 100.0
 [node name="HeathComponent" parent="." unique_id=1050028878 instance=ExtResource("4_vbd4l")]
 
 [node name="Input_Component" parent="." unique_id=15161928 instance=ExtResource("5_t8fh3")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=615925590]
