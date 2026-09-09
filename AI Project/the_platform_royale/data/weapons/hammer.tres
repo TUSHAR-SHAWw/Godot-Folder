@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/WeaponResource.gd" id="1_hammer"]
+
+[resource]
+script = ExtResource("1_hammer")
+weapon_name = "Hammer"
+base_damage = 32.0
+attack_speed = 0.65
+attack_range = 60.0

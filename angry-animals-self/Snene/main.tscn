@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bad0v6wwfhkaf"]
+
+[ext_resource type="Texture2D" uid="uid://vjwqogrfrf0x" path="res://Assets/env/MainBG.png" id="1_cj30c"]
+
+[node name="Main" type="Control" unique_id=98477150]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=390433072]
+scale = Vector2(0.91, 0.91)
+texture = ExtResource("1_cj30c")
+centered = false

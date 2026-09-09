@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b8wrf3a34uu2h"]
+
+[ext_resource type="Texture2D" uid="uid://c7d53nanbsk1y" path="res://Assets/scene/colored_castle.png" id="1_jdoow"]
+[ext_resource type="PackedScene" uid="uid://cye71mimjc1ud" path="res://Snene/Animal.tscn" id="2_yych8"]
+
+[node name="Lavelbase" type="Node2D" unique_id=276900854]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=124541564]
+position = Vector2(0, -250)
+scale = Vector2(1.13, 1.13)
+texture = ExtResource("1_jdoow")
+centered = false
+
+[node name="Animal" parent="." unique_id=2142966734 instance=ExtResource("2_yych8")]
+position = Vector2(132, 162)

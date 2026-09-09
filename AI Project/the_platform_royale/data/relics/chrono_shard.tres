@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/RelicResource.gd" id="1_chrono"]
+
+[resource]
+script = ExtResource("1_chrono")
+relic_name = "Chrono Shard"
+description = "Triggers a 3-second time dilation effect upon killing an enemy"
+passive_effect = "TimeSlowOnKill"

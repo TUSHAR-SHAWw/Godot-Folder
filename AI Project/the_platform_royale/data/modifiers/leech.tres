@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ModifierResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/ModifierResource.gd" id="1_leech"]
+
+[resource]
+script = ExtResource("1_leech")
+modifier_name = "Leech"
+speed_multiplier = 0.95
+damage_multiplier = 1.05

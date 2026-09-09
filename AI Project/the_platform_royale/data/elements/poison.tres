@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ElementResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/ElementResource.gd" id="1_poison"]
+
+[resource]
+script = ExtResource("1_poison")
+element_name = "Poison"
+status_effect = "Poison"
+bonus_damage = 4.0

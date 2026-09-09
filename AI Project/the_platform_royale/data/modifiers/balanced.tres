@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ModifierResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/ModifierResource.gd" id="1_bal"]
+
+[resource]
+script = ExtResource("1_bal")
+modifier_name = "Balanced"
+speed_multiplier = 1.0
+damage_multiplier = 1.0

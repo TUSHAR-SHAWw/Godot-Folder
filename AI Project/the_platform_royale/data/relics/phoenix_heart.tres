@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/RelicResource.gd" id="1_phoenix"]
+
+[resource]
+script = ExtResource("1_phoenix")
+relic_name = "Phoenix Heart"
+description = "Revives player once upon fatal damage"
+passive_effect = "Revive"

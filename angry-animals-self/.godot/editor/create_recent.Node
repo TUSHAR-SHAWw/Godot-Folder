@@ -1,0 +1,6 @@
+Sprite2D
+Label
+AudioStreamPlayer
+CollisionShape2D
+RigidBody2D
+MarginContainer

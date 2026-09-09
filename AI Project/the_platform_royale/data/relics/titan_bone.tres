@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RelicResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/RelicResource.gd" id="1_titan"]
+
+[resource]
+script = ExtResource("1_titan")
+relic_name = "Titan Bone"
+description = "Grants +35% defense boost and knockback resistance"
+passive_effect = "DefenseBoost"

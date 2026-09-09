@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/WeaponResource.gd" id="1_bow"]
+
+[resource]
+script = ExtResource("1_bow")
+weapon_name = "Bow"
+base_damage = 15.0
+attack_speed = 1.1
+attack_range = 300.0

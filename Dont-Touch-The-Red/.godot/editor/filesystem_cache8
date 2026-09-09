@@ -1,0 +1,11 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1788930135
+::res://scenes/::1788798945
+Main.tscn::PackedScene::-1::1788799877::0::1::::<><>::res://scripts/Main.gd<>res://scripts/Arena.gd<>res://scripts/Player.gd<>res://scripts/DangerManager.gd<>res://scripts/UIManager.gd
+::res://scripts/::1788799853
+Arena.gd::GDScript::-1::1788798924::0::1::::<>Node2D<>::
+DangerManager.gd::GDScript::-1::1788799710::0::1::::<>Node2D<>::
+DangerZone.gd::GDScript::-1::1788799665::0::1::::<>Area2D<>::
+Main.gd::GDScript::-1::1788799869::0::1::::<>Node2D<>::
+Player.gd::GDScript::-1::1788799863::0::1::::<>CharacterBody2D<>::
+UIManager.gd::GDScript::-1::1788799922::0::1::::<>CanvasLayer<>::

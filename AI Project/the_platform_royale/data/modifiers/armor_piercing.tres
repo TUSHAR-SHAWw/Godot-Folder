@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ModifierResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/ModifierResource.gd" id="1_ap"]
+
+[resource]
+script = ExtResource("1_ap")
+modifier_name = "Armor-piercing"
+speed_multiplier = 1.05
+damage_multiplier = 1.15

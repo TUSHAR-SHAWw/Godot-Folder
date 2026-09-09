@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://entities/enemies/Enemy.gd" id="1_enemy"]
+[ext_resource type="Script" path="res://components/health/HealthComponent.gd" id="2_hp"]
+[ext_resource type="Script" path="res://components/hunger/HungerComponent.gd" id="3_hunger"]
+[ext_resource type="Script" path="res://components/combat/CombatComponent.gd" id="4_combat"]
+[ext_resource type="Script" path="res://components/combat/DamageComponent.gd" id="5_dmg"]
+[ext_resource type="Script" path="res://components/movement/MovementComponent.gd" id="6_move"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy"]
+size = Vector2(32, 64)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_enemy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 32.0
+color = Color(1, 0.3, 0.3, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_enemy")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_hp")
+
+[node name="HungerComponent" type="Node" parent="."]
+script = ExtResource("3_hunger")
+
+[node name="CombatComponent" type="Node" parent="."]
+script = ExtResource("4_combat")
+
+[node name="DamageComponent" type="Node" parent="."]
+script = ExtResource("5_dmg")
+
+[node name="MovementComponent" type="Node" parent="."]
+script = ExtResource("6_move")

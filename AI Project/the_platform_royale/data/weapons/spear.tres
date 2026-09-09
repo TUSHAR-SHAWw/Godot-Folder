@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/WeaponResource.gd" id="1_spear"]
+
+[resource]
+script = ExtResource("1_spear")
+weapon_name = "Spear"
+base_damage = 18.0
+attack_speed = 1.0
+attack_range = 80.0

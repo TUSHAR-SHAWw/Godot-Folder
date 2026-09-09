@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ElementResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/ElementResource.gd" id="1_lightning"]
+
+[resource]
+script = ExtResource("1_lightning")
+element_name = "Lightning"
+status_effect = "Stun"
+bonus_damage = 6.0
