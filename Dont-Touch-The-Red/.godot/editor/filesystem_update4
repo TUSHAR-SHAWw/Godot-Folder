@@ -1,1 +1,4 @@
 res://scenes/Main.tscn
+res://scenes/Coin.tscn
+res://scenes/Player.tscn
+res://scenes/Powerup.tscn

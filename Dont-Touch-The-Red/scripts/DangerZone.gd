@@ -9,6 +9,7 @@ signal activated
 signal finished
 
 enum Phase { WARNING, ACTIVE, DONE }
+enum Kind { RECTANGLE, SPIKES, MOVING_WALL }
 
 @export var warning_time := 1.2
 @export var active_time := 2.0
@@ -16,6 +17,12 @@ enum Phase { WARNING, ACTIVE, DONE }
 var size_now := Vector2(200, 200)
 var target_size := Vector2.ZERO
 var grow_speed := 0.0
+var _activation_flash := 0.0
+var kind := Kind.RECTANGLE
+var motion_axis := Vector2.ZERO
+var motion_origin := Vector2.ZERO
+var motion_range := 0.0
+var motion_time := 0.0
 
 var phase := Phase.WARNING
 
@@ -27,12 +34,15 @@ var _shape: RectangleShape2D
 var _collider: CollisionShape2D
 
 ## Configure the zone before adding it to the tree.
-func setup(new_size: Vector2, target: Vector2, warn: float, act: float, grow: float) -> void:
+func setup(new_size: Vector2, target: Vector2, warn: float, act: float, grow: float, new_kind := Kind.RECTANGLE, new_motion_axis := Vector2.ZERO, new_motion_range := 0.0) -> void:
 	size_now = new_size
 	target_size = target
 	warning_time = warn
 	active_time = act
 	grow_speed = grow
+	kind = new_kind
+	motion_axis = new_motion_axis
+	motion_range = new_motion_range
 
 func _ready() -> void:
 	_shape = RectangleShape2D.new()
@@ -58,6 +68,10 @@ func _start_warning() -> void:
 
 func _activate() -> void:
 	phase = Phase.ACTIVE
+	_activation_flash = 0.22
+	modulate = Color(1.0, 1.0, 1.0, 0.78)
+	var activation_tween := create_tween()
+	activation_tween.tween_property(self, "modulate:a", 1.0, 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_update_collider()
 	activated.emit()
 	queue_redraw()
@@ -65,10 +79,26 @@ func _activate() -> void:
 
 func _finish() -> void:
 	phase = Phase.DONE
+	_collider.set_deferred("disabled", true)
 	finished.emit()
-	queue_free()
+	var finish_tween := create_tween()
+	finish_tween.tween_property(self, "modulate:a", 0.0, 0.14)
+	finish_tween.tween_callback(queue_free)
+
+func is_active() -> bool:
+	return phase == Phase.ACTIVE
+
+func get_danger_rect() -> Rect2:
+	return Rect2(position - size_now / 2.0, size_now)
 
 func _physics_process(delta: float) -> void:
+	motion_time += delta
+	if kind == Kind.MOVING_WALL and phase != Phase.DONE:
+		position = motion_origin + motion_axis * sin(motion_time * 2.0) * motion_range
+		queue_redraw()
+	_activation_flash = maxf(0.0, _activation_flash - delta)
+	if phase == Phase.WARNING:
+		queue_redraw()
 	if target_size != Vector2.ZERO and size_now != target_size:
 		size_now = size_now.move_toward(target_size, grow_speed * delta)
 		if phase != Phase.WARNING:
@@ -98,7 +128,44 @@ func _draw() -> void:
 		draw_rect(rect, fill)
 		var border := WARNING_COLOR
 		border.a = 0.4 + 0.6 * pulse
+		_draw_warning_marks(rect, border)
 		draw_rect(rect, border, false, 3.0 + 2.0 * pulse)
 	else:
-		draw_rect(rect, ACTIVE_COLOR)
+		draw_rect(rect, Color("#d91f3a"))
 		draw_rect(rect, ACTIVE_BORDER, false, 4.0)
+		_draw_active_stripes(rect)
+		if kind == Kind.SPIKES:
+			_draw_spikes(rect, ACTIVE_BORDER)
+		elif kind == Kind.MOVING_WALL:
+			draw_line(Vector2(-size_now.x / 2.0, 0.0), Vector2(size_now.x / 2.0, 0.0), Color.WHITE, 2.0)
+		if _activation_flash > 0.0:
+			var burst := 1.0 + (0.22 - _activation_flash) * 2.5
+			var burst_rect := Rect2(-size_now * burst / 2.0, size_now * burst)
+			var burst_color := Color(1.0, 0.35, 0.35, _activation_flash / 0.22)
+			draw_rect(burst_rect, burst_color, false, 8.0)
+
+func _draw_spikes(rect: Rect2, color: Color) -> void:
+	var count := maxi(3, int(rect.size.x / 28.0))
+	var step := rect.size.x / count
+	for i in range(count):
+		var x := rect.position.x + i * step
+		var points := PackedVector2Array([
+			Vector2(x, rect.position.y),
+			Vector2(x + step / 2.0, rect.position.y - 10.0),
+			Vector2(x + step, rect.position.y),
+		])
+		draw_colored_polygon(points, color)
+
+func _draw_warning_marks(rect: Rect2, color: Color) -> void:
+	var mark_color := Color(1.0, 0.72, 0.25, color.a)
+	var center := rect.get_center()
+	draw_circle(center, 15.0, Color(0.35, 0.03, 0.05, 0.35))
+	draw_line(center + Vector2(0.0, -8.0), center + Vector2(0.0, 3.0), mark_color, 4.0)
+	draw_circle(center + Vector2(0.0, 9.0), 2.5, mark_color)
+
+func _draw_active_stripes(rect: Rect2) -> void:
+	var stripe_color := Color(1.0, 0.55, 0.18, 0.28)
+	var spacing := 24.0
+	var start := rect.position.x - rect.size.y
+	for x in range(int(start), int(rect.end.x), int(spacing)):
+		draw_line(Vector2(x, rect.end.y), Vector2(x + rect.size.y, rect.position.y), stripe_color, 5.0)
