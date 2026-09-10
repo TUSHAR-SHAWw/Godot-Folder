@@ -1,7 +1,7 @@
 extends Node2D
 
 const DangerZone := preload("res://scripts/DangerZone.gd")
-
+const SpikeBall := preload("res://scripts/SpikeBall.gd")
 ## Spawns danger zones on an interval using a set of random patterns.
 ## Every pattern always leaves at least one safe spot, so the game stays fair.
 
@@ -22,6 +22,52 @@ var _run_generation := 0
 
 # Arena half-size (matches the Arena node, +-400/+-300 around the origin).
 var _arena_half := Vector2(400, 300)
+
+func _pattern_spike_ball() -> bool:
+
+	var half := _arena_half
+
+	var margin := 40.0
+
+	var spawn_position := Vector2(
+		randf_range(-half.x + margin, half.x - margin),
+		randf_range(-half.y + margin, half.y - margin)
+	)
+
+	# Don't spawn directly on the player
+	if is_instance_valid(player):
+
+		if spawn_position.distance_to(player.global_position) < 130.0:
+			return false
+
+	var direction := Vector2(
+		randf_range(-1.0, 1.0),
+		randf_range(-1.0, 1.0)
+	).normalized()
+
+	if direction == Vector2.ZERO:
+		direction = Vector2.RIGHT
+
+	var ball := SpikeBall.new()
+
+	ball.setup(
+		spawn_position,
+		direction,
+		180.0,
+		warning_time,
+		3.0
+	)
+
+	ball.arena_rect = Rect2(
+		-_arena_half,
+		_arena_half * 2.0
+	)
+
+	add_child(ball)
+
+	danger_spawned.emit(ball)
+
+	return true
 
 func start(p: Node2D, selected_mode := 0) -> void:
 	_run_generation += 1
@@ -73,7 +119,12 @@ func _spawn_random_pattern() -> void:
 	if elapsed >= tuning.idle_pressure_start and is_instance_valid(player) and player.velocity.length() < 10.0:
 		_pattern_player_pressure()
 		return
-	var patterns: Array[Callable] = [_pattern_side_rect, _pattern_strip, _pattern_expand]
+	var patterns: Array[Callable] = [
+	_pattern_side_rect,
+	_pattern_strip,
+	_pattern_expand,
+	_pattern_spike_ball
+]
 	if elapsed >= tuning.idle_pressure_start:
 		patterns.append(_pattern_player_pressure)
 	if mode != 2:

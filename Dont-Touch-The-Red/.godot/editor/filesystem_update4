@@ -1,4 +1,2 @@
-res://scenes/Main.tscn
-res://scenes/Coin.tscn
-res://scenes/Player.tscn
-res://scenes/Powerup.tscn
+res://scenes/spike_ball.tscn
+res://scripts/DangerManager.gd
