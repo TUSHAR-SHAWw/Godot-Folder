@@ -34,9 +34,9 @@ var sfx_enabled := true
 func _ready() -> void:
 	music_player.volume_db = music_volume_db
 	ui_player.volume_db = sfx_volume_db
-	warning_player.volume_db = sfx_volume_db
+	warning_player.volume_db = sfx_volume_db+30
 	danger_player.volume_db = sfx_volume_db
-	death_player.volume_db = sfx_volume_db
+	death_player.volume_db = sfx_volume_db+20
 	coin_player.volume_db = sfx_volume_db
 	powerup_player.volume_db = sfx_volume_db
 	if music_stream:
@@ -44,8 +44,9 @@ func _ready() -> void:
 		music_player.play()
 
 func play_ui() -> void:
+	
+	music_player.stop()
 	_play(ui_player, ui_stream)
-
 func set_music_enabled(enabled: bool) -> void:
 	music_enabled = enabled
 	if music_enabled:
