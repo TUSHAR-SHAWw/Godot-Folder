@@ -370,8 +370,9 @@ func _multiplier_upgrade_cost() -> int:
 func _on_player_died() -> void:
 	if state != State.PLAYING:
 		return
-	state = State.GAME_OVER
 	audio.play_death()
+	state = State.GAME_OVER
+	
 	if elapsed >= _next_milestone:
 		ui.show_milestone(_next_milestone)
 		_next_milestone += 10

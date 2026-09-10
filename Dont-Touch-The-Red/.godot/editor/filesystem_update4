@@ -1,2 +1,3 @@
+res://scenes/Main.tscn
 res://scenes/spike_ball.tscn
-res://scripts/DangerManager.gd
+res://scripts/Main.gd
