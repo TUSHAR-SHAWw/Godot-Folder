@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const SkinCatalog := preload("res://scripts/SkinCatalog.gd")
+
 ## All game UI built in code with responsive anchors/containers so it adapts to
 ## any aspect ratio (web, desktop, mobile).
 
@@ -55,6 +57,7 @@ var hud_best: Label
 
 var menu_best: Label
 var menu_panel: Control
+var _selected_mode_label: Label
 
 var go_score: Label
 var go_best: Label
@@ -157,11 +160,8 @@ func _ready() -> void:
 
 	# Skin costs
 	_skin_costs = []
-
-	for i in range(20):
-		_skin_costs.append(
-			0 if i == 0 else 15 + i * 10
-		)
+	for skin in SkinCatalog.SKINS:
+		_skin_costs.append(int(skin.cost))
 
 	# ------------------------------------------------------------------------
 	# Screen flash
@@ -660,6 +660,13 @@ func show_menu(best: int) -> void:
 
 	_animate_center(_menu_center)
 	_animate_menu_accent()
+
+
+func set_selected_mode(mode: int) -> void:
+	var mode_names := ["CLASSIC", "RUSH", "ZEN"]
+	if mode < 0 or mode >= mode_names.size() or not is_instance_valid(_selected_mode_label):
+		return
+	_selected_mode_label.text = "SELECTED: " + mode_names[mode]
 
 
 func show_loading(text := "LOADING") -> void:
@@ -1460,6 +1467,13 @@ func _build_menu() -> void:
 
 	box.add_child(modes)
 
+	_selected_mode_label = _label(
+		"SELECTED: CLASSIC",
+		14,
+		Color("#f7c85b")
+	)
+	box.add_child(_selected_mode_label)
+
 	# ------------------------------------------------------------------------
 	# Navigation
 	# ------------------------------------------------------------------------
@@ -2024,7 +2038,7 @@ func _build_skin_menu() -> void:
 
 	box.add_child(
 		_label(
-			"SKIN COLLECTION",
+			"SKIN SHOP",
 			48,
 			Color.WHITE
 		)
@@ -2032,7 +2046,7 @@ func _build_skin_menu() -> void:
 
 	box.add_child(
 		_label(
-			"UNLOCK NEW COLORS AS YOU SURVIVE",
+			"BUY AND EQUIP IMAGE-BASED SKINS",
 			18,
 			Color("#b8b8c4")
 		)
@@ -2052,12 +2066,15 @@ func _build_skin_menu() -> void:
 		10
 	)
 
-	for i in range(20):
+	for i in range(SkinCatalog.count()):
+		var skin_data := SkinCatalog.get_skin(i)
 
 		var skin_button := _button(
-			"SKIN %02d" % (i + 1),
-			_skin_colors[i]
+			str(skin_data.name),
+			Color("#292d3a")
 		)
+		skin_button.icon = SkinCatalog.get_texture(i)
+		skin_button.expand_icon = true
 
 		skin_button.custom_minimum_size = Vector2(
 			142,

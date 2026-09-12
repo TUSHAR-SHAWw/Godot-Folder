@@ -9,7 +9,7 @@ signal activated
 signal finished
 
 enum Phase { WARNING, ACTIVE, DONE }
-enum Kind { RECTANGLE, SPIKES, MOVING_WALL }
+enum Kind { RECTANGLE, SPIKES, MOVING_WALL, ZIGZAG, PINWHEEL }
 
 @export var warning_time := 1.2
 @export var active_time := 2.0
@@ -63,7 +63,7 @@ func _ready() -> void:
 
 func _start_warning() -> void:
 	phase = Phase.WARNING
-	get_tree().create_timer(warning_time).timeout.connect(_activate)
+	get_tree().create_timer(warning_time, false).timeout.connect(_activate)
 	queue_redraw()
 
 func _activate() -> void:
@@ -75,7 +75,7 @@ func _activate() -> void:
 	_update_collider()
 	activated.emit()
 	queue_redraw()
-	get_tree().create_timer(active_time).timeout.connect(_finish)
+	get_tree().create_timer(active_time, false).timeout.connect(_finish)
 
 func _finish() -> void:
 	phase = Phase.DONE
@@ -138,6 +138,10 @@ func _draw() -> void:
 			_draw_spikes(rect, ACTIVE_BORDER)
 		elif kind == Kind.MOVING_WALL:
 			draw_line(Vector2(-size_now.x / 2.0, 0.0), Vector2(size_now.x / 2.0, 0.0), Color.WHITE, 2.0)
+		elif kind == Kind.ZIGZAG:
+			_draw_zigzag(rect)
+		elif kind == Kind.PINWHEEL:
+			_draw_pinwheel(rect)
 		if _activation_flash > 0.0:
 			var burst := 1.0 + (0.22 - _activation_flash) * 2.5
 			var burst_rect := Rect2(-size_now * burst / 2.0, size_now * burst)
@@ -155,6 +159,19 @@ func _draw_spikes(rect: Rect2, color: Color) -> void:
 			Vector2(x + step, rect.position.y),
 		])
 		draw_colored_polygon(points, color)
+
+func _draw_zigzag(rect: Rect2) -> void:
+	var points := PackedVector2Array()
+	for i in range(7):
+		var x := rect.position.x + rect.size.x * float(i) / 6.0
+		var y := rect.position.y + (rect.size.y if i % 2 == 0 else 0.0)
+		points.append(Vector2(x, y))
+	draw_polyline(points, Color("#ffcf55"), 5.0)
+
+func _draw_pinwheel(rect: Rect2) -> void:
+	var center := rect.get_center()
+	draw_line(center + Vector2(-rect.size.x / 2.0, -rect.size.y / 2.0), center + Vector2(rect.size.x / 2.0, rect.size.y / 2.0), Color("#ffcf55"), 5.0)
+	draw_line(center + Vector2(rect.size.x / 2.0, -rect.size.y / 2.0), center + Vector2(-rect.size.x / 2.0, rect.size.y / 2.0), Color("#ffcf55"), 5.0)
 
 func _draw_warning_marks(rect: Rect2, color: Color) -> void:
 	var mark_color := Color(1.0, 0.72, 0.25, color.a)

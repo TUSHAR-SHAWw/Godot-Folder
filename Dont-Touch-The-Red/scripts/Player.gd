@@ -1,25 +1,6 @@
 extends CharacterBody2D
 
-## ============================================================
-## PLAYER
-## DON'T TOUCH THE RED
-## ============================================================
-##
-## Features:
-## - WASD / Arrow-key movement
-## - Mouse steering
-## - Touch joystick support
-## - Smooth acceleration / friction
-## - Arena clamping
-## - 20 skins
-## - Animated pulse
-## - Motion trail
-## - Highlight/glow
-## - Squash & stretch while moving
-## - Smooth death animation
-## - Shield support
-## ============================================================
-
+const SkinCatalog := preload("res://scripts/SkinCatalog.gd")
 
 # ============================================================
 # MOVEMENT
@@ -429,7 +410,7 @@ func set_skin(index: int) -> void:
 	skin_index = clampi(
 		index,
 		0,
-		SKIN_COLORS.size() - 1
+		SkinCatalog.count() - 1
 	)
 
 	if not is_instance_valid(player_sprite):
@@ -442,7 +423,8 @@ func set_skin(index: int) -> void:
 
 	else:
 
-		player_sprite.modulate = SKIN_COLORS[skin_index]
+		player_sprite.modulate = Color.WHITE
+		player_sprite.texture = SkinCatalog.get_texture(skin_index)
 
 
 	queue_redraw()
@@ -586,7 +568,7 @@ func _shield_protected_effect() -> void:
 	tween.tween_property(
 		player_sprite,
 		"modulate",
-		SKIN_COLORS[skin_index],
+		Color.WHITE,
 		0.20
 	)
 
@@ -649,51 +631,35 @@ func clamp_to_arena() -> void:
 		min_y,
 		max_y
 	)
-
-
 # ============================================================
 # CUSTOM DRAWING
 # ============================================================
 
 func _draw() -> void:
-
 	# --------------------------------------------------------
 	# Current skin colors
 	# --------------------------------------------------------
-
-	var body_color = SKIN_COLORS[skin_index]
-
-	var highlight_color = SKIN_HIGHLIGHTS[skin_index]
-
-
+	var skin_data := SkinCatalog.get_skin(skin_index)
+	var body_color: Color = skin_data.body
+	var highlight_color: Color = skin_data.highlight
 	# --------------------------------------------------------
 	# Motion trail
 	# --------------------------------------------------------
-
 	if trail_enabled and _trail.size() > 1 and not is_dead:
-
 		for i in range(_trail.size() - 1):
-
 			var point := _trail[i]
-
 			var ratio := float(i) / float(
 				maxi(1, _trail.size() - 1)
 			)
-
-
 			var alpha := (
 				(1.0 - ratio)
 				* 0.22
 			)
-
-
 			var trail_radius := lerpf(
 				radius * 0.75,
 				radius * 0.20,
 				ratio
 			)
-
-
 			draw_circle(
 				to_local(point),
 				trail_radius,
@@ -704,12 +670,9 @@ func _draw() -> void:
 					alpha
 				)
 			)
-
-
 	# --------------------------------------------------------
 	# Pulse ring
 	# --------------------------------------------------------
-
 	if pulse_enabled and not is_dead:
 
 		var pulse := (
@@ -717,21 +680,15 @@ func _draw() -> void:
 			* 0.5
 			+ 0.5
 		)
-
-
 		var pulse_radius := (
 			radius
 			+ 3.0
 			+ pulse * 3.0
 		)
-
-
 		var pulse_alpha := (
 			0.12
 			- pulse * 0.07
 		)
-
-
 		draw_arc(
 			Vector2.ZERO,
 			pulse_radius,
@@ -746,14 +703,10 @@ func _draw() -> void:
 			),
 			1.5
 		)
-
-
 	# --------------------------------------------------------
 	# Outer glow
 	# --------------------------------------------------------
-
 	if not is_dead:
-
 		draw_circle(
 			Vector2.ZERO,
 			radius * 1.45,
@@ -764,8 +717,6 @@ func _draw() -> void:
 				0.08
 			)
 		)
-
-
 		draw_circle(
 			Vector2.ZERO,
 			radius * 1.20,
@@ -776,19 +727,14 @@ func _draw() -> void:
 				0.12
 			)
 		)
-
-
 	# --------------------------------------------------------
 	# Main body
 	# --------------------------------------------------------
-
 	draw_circle(
 		Vector2.ZERO,
 		radius,
 		body_color
 	)
-
-
 	# --------------------------------------------------------
 	# Body outline
 	# --------------------------------------------------------
@@ -802,18 +748,13 @@ func _draw() -> void:
 		highlight_color,
 		1.5
 	)
-
-
 	# --------------------------------------------------------
 	# Inner highlight
 	# --------------------------------------------------------
-
 	var highlight_position := Vector2(
 		-radius * 0.30,
 		-radius * 0.30
 	)
-
-
 	draw_circle(
 		highlight_position,
 		radius * 0.30,
@@ -824,12 +765,9 @@ func _draw() -> void:
 			0.70
 		)
 	)
-
-
 	# --------------------------------------------------------
 	# Small shine
 	# --------------------------------------------------------
-
 	draw_circle(
 		highlight_position + Vector2(
 			-radius * 0.08,
@@ -843,14 +781,10 @@ func _draw() -> void:
 			0.75
 		)
 	)
-
-
 	# --------------------------------------------------------
 	# Dead visual
 	# --------------------------------------------------------
-
 	if is_dead:
-
 		draw_arc(
 			Vector2.ZERO,
 			radius * 1.35,

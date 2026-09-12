@@ -37,7 +37,7 @@ func _on_body_entered(body: Node) -> void:
 	if _collected or not body.is_in_group("player"):
 		return
 	_collected = true
-	monitoring = false
+	set_deferred("monitoring", false)
 	collected.emit(kind)
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(self, "scale", Vector2.ONE * 1.8, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

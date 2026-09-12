@@ -3,7 +3,8 @@ extends Node
 ## Central audio hub. Assign any AudioStream assets to the exported slots in the inspector.
 
 @export_group("Music")
-@export var music_stream: AudioStream
+@export var bg_music_stream: AudioStream
+@export var gameplay_music_stream: AudioStream
 @export_range(-40.0, 6.0, 0.5) var music_volume_db := -12.0
 
 @export_group("SFX")
@@ -22,6 +23,7 @@ extends Node
 
 var music_enabled := true
 var sfx_enabled := true
+var _music_tween: Tween
 
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 @onready var ui_player: AudioStreamPlayer = $UIPlayer
@@ -34,14 +36,60 @@ var sfx_enabled := true
 func _ready() -> void:
 	music_player.volume_db = music_volume_db
 	ui_player.volume_db = sfx_volume_db
-	warning_player.volume_db = sfx_volume_db
+	warning_player.volume_db = sfx_volume_db + 30
 	danger_player.volume_db = sfx_volume_db
-	death_player.volume_db = sfx_volume_db
+	death_player.volume_db = sfx_volume_db + 20
 	coin_player.volume_db = sfx_volume_db
 	powerup_player.volume_db = sfx_volume_db
-	if music_stream:
-		music_player.stream = music_stream
+	
+	#play_background_music()
+
+func play_background_music() -> void:
+	if bg_music_stream is AudioStreamMP3:
+		bg_music_stream.loop = true
+	_play_music(bg_music_stream)
+
+
+func play_gameplay_music() -> void:
+	if gameplay_music_stream is AudioStreamMP3:
+		gameplay_music_stream.loop = true
+	_play_music(gameplay_music_stream)
+
+func _play_music(stream: AudioStream) -> void:
+	if not music_enabled or not stream:
+		return
+	if music_player.stream == stream:
+		music_player.stream_paused = false
+		if not music_player.playing:
+			music_player.play()
+		return
+	if _music_tween and _music_tween.is_valid():
+		_music_tween.kill()
+	_music_tween = create_tween()
+	_music_tween.tween_property(music_player, "volume_db", -40.0, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_music_tween.tween_callback(func() -> void:
+		music_player.stream = stream
+		music_player.stream_paused = false
 		music_player.play()
+	)
+	_music_tween.tween_property(music_player, "volume_db", music_volume_db, 0.28).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func pause_background_music() -> void:
+	if music_player.stream == bg_music_stream and music_player.playing:
+		music_player.stream_paused = true
+
+
+func resume_background_music() -> void:
+	if music_player.stream == bg_music_stream and music_player.stream_paused:
+		music_player.stream_paused = false
+
+func pause_gameplay_music() -> void:
+	if music_player.stream == gameplay_music_stream and music_player.playing:
+		music_player.stream_paused = true
+
+func resume_gameplay_music() -> void:
+	if music_player.stream == gameplay_music_stream and music_player.stream_paused:
+		music_player.stream_paused = false
 
 func play_ui() -> void:
 	_play(ui_player, ui_stream)
@@ -52,6 +100,8 @@ func set_music_enabled(enabled: bool) -> void:
 		if music_player.stream and not music_player.playing:
 			music_player.play()
 	else:
+		if _music_tween and _music_tween.is_valid():
+			_music_tween.kill()
 		music_player.stop()
 
 func set_sfx_enabled(enabled: bool) -> void:
