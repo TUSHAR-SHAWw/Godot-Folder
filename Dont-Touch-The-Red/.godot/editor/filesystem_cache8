@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1789062611
+::res://::1789222838
 export_presets.cfg::TextFile::-1::1788957999::0::1::::<><>::
 ::res://assets/::1788958553
 coin_common.svg::CompressedTexture2D::1433825551071958829::1788949845::1788949849::1::::<><>::
@@ -28,12 +28,12 @@ game-over-arcade-6435.mp3::AudioStreamMP3::4025762295530697155::1789062672::1789
 level-up.mp3::AudioStreamMP3::9096939094530351601::1789062507::1789062507::1::::<><>::
 power-up-01a-484722.mp3::AudioStreamMP3::5478199822005135585::1789062432::1789062432::1::::<><>::
 Shield.mp3::AudioStreamMP3::7589499661126772407::1789062392::1789062400::1::::<><>::
-::res://scenes/::1789062849
+::res://scenes/::1789062910
 Coin.tscn::PackedScene::8872847085672684728::1788959038::0::1::::<><>::res://scripts/Coin.gd<>uid://uos5rld586x2::::res://assets/coin_common.svg
-Main.tscn::PackedScene::9012657723280390858::1789062849::0::1::::<><>::res://scripts/Main.gd<>res://scripts/Arena.gd<>uid://bqweyk4l8jjom::::res://scenes/Player.tscn<>res://scripts/DangerManager.gd<>res://scripts/UIManager.gd<>res://scripts/GameCamera.gd<>res://scripts/AudioManager.gd<>uid://cf4yhpd821wea::::res://assets/sounds/music/time_for_adventure.mp3<>uid://btumuxna211om::::res://assets/sounds/music/tap.wav<>uid://dnahunrjmctly::::res://assets/sounds/music/game-music-loop-27629.mp3<>res://scripts/GameTuning.gd<>uid://djlnjng8qdh2y::::res://assets/sounds/sfxs/danger.mp3<>uid://dfcobne5g1kmn::::res://assets/sounds/music/coin.wav<>uid://b72ul4ysyoh6q::::res://assets/sounds/music/power_up.wav<>uid://bxmdymwr712db::::res://assets/sounds/sfxs/game-over-arcade-6435.mp3<>uid://b4sdk3lguawwm::::res://assets/sounds/sfxs/coin.mp3<>uid://cdkv0lq3v8ycs::::res://assets/sounds/sfxs/coin2.mp3<>uid://dgen7k4s6aswt::::res://assets/sounds/sfxs/Shield.mp3<>uid://d2uvi1a4ofgm0::::res://assets/sounds/sfxs/level-up.mp3<>uid://ckbxfeg4bfig4::::res://assets/sounds/sfxs/power-up-01a-484722.mp3
+Main.tscn::PackedScene::9012657723280390858::1789062910::0::1::::<><>::res://scripts/Main.gd<>res://scripts/Arena.gd<>uid://bqweyk4l8jjom::::res://scenes/Player.tscn<>res://scripts/DangerManager.gd<>res://scripts/UIManager.gd<>res://scripts/GameCamera.gd<>res://scripts/AudioManager.gd<>uid://x82ouh61q0us::::res://assets/sounds/music/game-music-loop-6-144641.mp3<>uid://cf4yhpd821wea::::res://assets/sounds/music/time_for_adventure.mp3<>uid://btumuxna211om::::res://assets/sounds/music/tap.wav<>res://scripts/GameTuning.gd<>uid://djlnjng8qdh2y::::res://assets/sounds/sfxs/danger.mp3<>uid://dfcobne5g1kmn::::res://assets/sounds/music/coin.wav<>uid://b72ul4ysyoh6q::::res://assets/sounds/music/power_up.wav<>uid://bxmdymwr712db::::res://assets/sounds/sfxs/game-over-arcade-6435.mp3<>uid://b4sdk3lguawwm::::res://assets/sounds/sfxs/coin.mp3<>uid://cdkv0lq3v8ycs::::res://assets/sounds/sfxs/coin2.mp3<>uid://dgen7k4s6aswt::::res://assets/sounds/sfxs/Shield.mp3<>uid://d2uvi1a4ofgm0::::res://assets/sounds/sfxs/level-up.mp3<>uid://ckbxfeg4bfig4::::res://assets/sounds/sfxs/power-up-01a-484722.mp3
 Player.tscn::PackedScene::3555144790092800516::1788959038::0::1::::<><>::res://scripts/Player.gd<>uid://bjxih2ts4nsuk::::res://assets/player_ball.svg
 Powerup.tscn::PackedScene::7872837348091017622::1788959038::0::1::::<><>::res://scripts/Powerup.gd<>uid://dh01tjxkc26mu::::res://assets/powerup_shield.svg
-spike_ball.tscn::PackedScene::5028846316679361993::1789062849::0::1::::<><>::res://scripts/SpikeBall.gd
+spike_ball.tscn::PackedScene::5028846316679361993::1789062910::0::1::::<><>::res://scripts/SpikeBall.gd
 ::res://scripts/::1789060867
 Arena.gd::GDScript::-1::1788948643::0::1::::<>Node2D<>::
 AudioManager.gd::GDScript::-1::1789060867::0::1::::<>Node<>::
