@@ -8,7 +8,7 @@ extends Node
 @export var danger_active_time := 2.0
 @export var danger_min_spawn_interval := 0.85
 @export var danger_spawn_acceleration := 0.025
-@export var idle_pressure_start := 14.0
+@export var idle_pressure_start := 5.0
 @export var idle_pressure_size := 92.0
 
 @export_group("Mode Identity")
@@ -23,21 +23,21 @@ extends Node
 
 @export_group("Collectible Timing")
 @export var coin_first_spawn_delay := 0.35
-@export var coin_spawn_interval := 3.6
+@export var coin_spawn_interval := 6
 @export var coin_min_spawn_interval := 1.4
 @export var powerup_first_spawn_delay := 8.0
 @export var powerup_spawn_interval := 12.0
 @export var max_active_coins := 3
 
 @export_group("Collectible Lifetimes")
-@export var common_coin_lifetime := 9.0
-@export var rare_coin_lifetime := 12.0
-@export var epic_coin_lifetime := 15.0
-@export var powerup_lifetime := 12.0
+@export var common_coin_lifetime := 5.0
+@export var rare_coin_lifetime := 9.0
+@export var epic_coin_lifetime := 10.0
+@export var powerup_lifetime := 10.0
 
 @export_group("Scoring")
 @export var milestone_interval := 10.0
 @export var coin_score_value := 5.0
 @export var score_boost_duration := 8.0
 @export var magnet_duration := 8.0
-@export var shield_grace_duration := 0.6
+@export var shield_grace_duration := 1

@@ -9,10 +9,21 @@ var velocity := Vector2.ZERO
 var active := false
 var _warning := true
 var _timer := 0.0
+var _collider: CollisionShape2D
 
 var arena_rect := Rect2(-400, -300, 800, 600)
 
 func _ready() -> void:
+	_collider = CollisionShape2D.new()
+	var shape := CircleShape2D.new()
+	shape.radius = radius + 9.0
+	_collider.shape = shape
+	add_child(_collider)
+	collision_layer = 0
+	collision_mask = 1
+	monitoring = true
+	monitorable = false
+	body_entered.connect(_on_body_entered)
 	queue_redraw()
 
 func setup(start_position: Vector2, direction: Vector2, ball_speed: float, warn: float, active_duration: float) -> void:
@@ -50,6 +61,9 @@ func _process(delta: float) -> void:
 		position += velocity * delta
 
 		_bounce_inside_arena()
+		for body in get_overlapping_bodies():
+			if body.is_in_group("player") and body.has_method("die"):
+				body.die()
 
 		if _timer >= active_time:
 			queue_free()
@@ -80,6 +94,10 @@ func _bounce_inside_arena() -> void:
 		position.y = max_y
 		velocity.y = -abs(velocity.y)
 
+func _on_body_entered(body: Node) -> void:
+	if active and body.is_in_group("player") and body.has_method("die"):
+		body.die()
+
 func _draw() -> void:
 
 	var pulse := sin(Time.get_ticks_msec() * 0.008) * 0.5 + 0.5
@@ -98,16 +116,13 @@ func _draw() -> void:
 			radius + 3.0,
 			Color(1.0, 0.25, 0.05, 0.25)
 		)
-
 	else:
-
 		# Active glow
 		draw_circle(
 			Vector2.ZERO,
 			radius + 9.0,
 			Color(1.0, 0.05, 0.02, 0.12)
 		)
-
 		draw_circle(
 			Vector2.ZERO,
 			radius + 4.0,

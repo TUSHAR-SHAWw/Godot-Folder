@@ -19,6 +19,7 @@ const REDUCED_EFFECTS_KEY := "reduced_effects"
 const ITEM_INVENTORY_KEY := "item_inventory"
 const Coin := preload("res://scripts/Coin.gd")
 const Powerup := preload("res://scripts/Powerup.gd")
+const SkinCatalog := preload("res://scripts/SkinCatalog.gd")
 const CoinScene := preload("res://scenes/Coin.tscn")
 const PowerupScene := preload("res://scenes/Powerup.tscn")
 
@@ -56,14 +57,19 @@ var item_inventory: Array = [0, 0, 0]
 @onready var tuning := $GameTuning
 
 func _ready() -> void:
+	audio.play_background_music()
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	$Arena.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$DangerManager.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$Player.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$Camera2D.process_mode = Node.PROCESS_MODE_PAUSABLE
 	best = _load_best()
 	coins = _load_coins()
 	multiplier_level = clampi(_load_multiplier_level(), 0, 8)
 	selected_skin = _load_skin()
-	selected_skin = clampi(selected_skin, 0, 19)
+	selected_skin = clampi(selected_skin, 0, SkinCatalog.count() - 1)
 	var saved_skins = _load_unlocked_skins()
-	if saved_skins.size() == 20:
+	if saved_skins.size() == SkinCatalog.count():
 		unlocked_skins = saved_skins
 	else:
 		unlocked_skins = _default_unlocked_skins()
@@ -91,6 +97,7 @@ func _ready() -> void:
 	ui.shop_action.connect(_on_shop_action)
 	ui.item_use_requested.connect(_on_item_use_requested)
 	danger_manager.danger_spawned.connect(_on_danger_spawned)
+	ui.set_selected_mode(selected_mode)
 	ui.set_progression(coins, selected_skin, unlocked_skins, multiplier_level)
 	touch_controls = _load_touch_controls()
 	music_enabled = _load_setting(MUSIC_ENABLED_KEY, true)
@@ -155,7 +162,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			start_game()
 
 func start_game() -> void:
-	audio.play_ui()
+	audio.play_gameplay_music()
+	audio.pause_background_music()
 	ui.show_loading("LOADING RUN")
 	await get_tree().create_timer(0.28).timeout
 	elapsed = 0.0
@@ -185,10 +193,12 @@ func _enter_menu() -> void:
 	is_paused = false
 	danger_manager.stop()
 	state = State.MENU
+	audio.play_background_music()
 	ui.show_menu(best)
 
 func _on_mode_selected(new_mode: int) -> void:
 	selected_mode = new_mode
+	ui.set_selected_mode(selected_mode)
 
 func _on_control_mode_selected(enabled: bool) -> void:
 	touch_controls = enabled
@@ -210,6 +220,8 @@ func _pause_game() -> void:
 		return
 	is_paused = true
 	get_tree().paused = true
+	audio.play_background_music()
+	audio.pause_gameplay_music()
 	ui.show_pause()
 
 func _resume_game() -> void:
@@ -217,6 +229,8 @@ func _resume_game() -> void:
 		return
 	is_paused = false
 	get_tree().paused = false
+	audio.play_gameplay_music()
+	audio.pause_background_music()
 	ui.hide_pause()
 
 func _open_pause_settings() -> void:
@@ -326,11 +340,11 @@ func _close_skin_menu() -> void:
 	ui.show_menu(best)
 
 func _on_skin_selected(skin: int) -> void:
-	var costs := _skin_costs()
-	if skin < 0 or skin >= unlocked_skins.size():
+	if skin < 0 or skin >= SkinCatalog.count() or skin >= unlocked_skins.size():
 		return
-	if not unlocked_skins[skin] and coins >= costs[skin]:
-		coins -= costs[skin]
+	var skin_data := SkinCatalog.get_skin(skin)
+	if not unlocked_skins[skin] and coins >= int(skin_data.cost):
+		coins -= int(skin_data.cost)
 		unlocked_skins[skin] = true
 	if unlocked_skins[skin]:
 		selected_skin = skin
@@ -389,6 +403,7 @@ func _on_player_died() -> void:
 	if score > best:
 		best = score
 		_save_best()
+	audio.play_background_music()
 	ui.show_game_over(score, best, run_coins, score_multiplier)
 
 func _on_danger_spawned(zone: Node) -> void:
@@ -520,10 +535,10 @@ func _load_unlocked_skins() -> Array:
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE_PATH) == OK:
 		var saved_value: Variant = cfg.get_value("meta", UNLOCKED_SKINS_KEY, null)
-		if saved_value is Array and saved_value.size() == 20:
+		if saved_value is Array:
 			var skins: Array = []
-			for unlocked in saved_value:
-				skins.append(bool(unlocked))
+			for i in range(SkinCatalog.count()):
+				skins.append(i < saved_value.size() and bool(saved_value[i]))
 			skins[0] = true
 			return skins
 	return _default_unlocked_skins()
@@ -571,19 +586,20 @@ func _load_item_inventory() -> Array:
 
 func _default_unlocked_skins() -> Array:
 	var skins: Array = []
-	for i in range(20):
+	for i in range(SkinCatalog.count()):
 		skins.append(i == 0)
 	return skins
 
 func _skin_costs() -> Array:
 	var costs: Array = []
-	for i in range(20):
-		costs.append(0 if i == 0 else 15 + i * 10)
+	for skin in SkinCatalog.SKINS:
+		costs.append(int(skin.cost))
 	return costs
 
 func _save_progress() -> void:
 	var cfg := ConfigFile.new()
 	cfg.load(SAVE_PATH)
+	cfg.set_value("meta", BEST_KEY, best)
 	cfg.set_value("meta", COINS_KEY, coins)
 	cfg.set_value("meta", SKIN_KEY, selected_skin)
 	cfg.set_value("meta", UNLOCKED_SKINS_KEY, unlocked_skins)

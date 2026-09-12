@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d1n2fki61b1ry"]
+[gd_scene load_steps=23 format=3 uid="uid://d1n2fki61b1ry"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/Arena.gd" id="2_arena"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/DangerManager.gd" id="4_danger"]
 [ext_resource type="Script" path="res://scripts/UIManager.gd" id="5_ui"]
 [ext_resource type="Script" path="res://scripts/GameCamera.gd" id="6_camera"]
+[ext_resource type="AudioStream" uid="uid://c0ja26o5w67mh" path="res://assets/sounds/music/game-start-music-loop.mp3" id="7_aiy5o"]
 [ext_resource type="Script" path="res://scripts/AudioManager.gd" id="7_audio"]
 [ext_resource type="AudioStream" uid="uid://x82ouh61q0us" path="res://assets/sounds/music/game-music-loop-6-144641.mp3" id="7_bby8w"]
 [ext_resource type="AudioStream" uid="uid://cf4yhpd821wea" path="res://assets/sounds/music/time_for_adventure.mp3" id="7_l1wex"]
@@ -41,7 +42,8 @@ ui_top_reserve = 236.0
 
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("7_audio")
-music_stream = ExtResource("7_bby8w")
+bg_music_stream = ExtResource("7_bby8w")
+gameplay_music_stream = ExtResource("7_aiy5o")
 ui_stream = SubResource("AudioStreamMP3_qfjxj")
 warning_stream = ExtResource("8_4u0jc")
 danger_stream = ExtResource("10_lj5kn")

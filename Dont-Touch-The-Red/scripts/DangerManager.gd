@@ -109,7 +109,7 @@ func _schedule(generation: int) -> void:
 		interval = maxf(tuning.danger_min_spawn_interval * 0.7, interval)
 	elif mode == 2:
 		interval = maxf(tuning.danger_min_spawn_interval, interval)
-	await get_tree().create_timer(interval).timeout
+	await get_tree().create_timer(interval, false).timeout
 	if not running or generation != _run_generation:
 		return
 	_spawn_random_pattern()
@@ -123,7 +123,9 @@ func _spawn_random_pattern() -> void:
 	_pattern_side_rect,
 	_pattern_strip,
 	_pattern_expand,
-	_pattern_spike_ball
+	_pattern_spike_ball,
+	_pattern_zigzag,
+	_pattern_pinwheel
 ]
 	if elapsed >= tuning.idle_pressure_start:
 		patterns.append(_pattern_player_pressure)
@@ -297,3 +299,36 @@ func _pattern_corner_pair() -> bool:
 	var left := Rect2(Vector2(-half.x, -half.y), corner_size)
 	var right := Rect2(Vector2(half.x - corner_size.x, half.y - corner_size.y), corner_size)
 	return _spawn_rects([left, right])
+
+func _pattern_zigzag() -> bool:
+	var half := _arena_half
+	var bar_size := Vector2(half.x * 0.34, half.y * 0.18)
+	var bars: Array[Rect2] = []
+	for i in range(3):
+		var x := -half.x + (half.x * 0.56 if i % 2 == 0 else half.x * 0.10)
+		var y := -half.y * 0.72 + i * half.y * 0.72
+		bars.append(Rect2(Vector2(x, y), bar_size))
+	var player_position := player.global_position if is_instance_valid(player) else Vector2.ZERO
+	for rect in bars:
+		if rect.grow(16.0).has_point(player_position):
+			return false
+	for rect in bars:
+		_spawn_zone_as(rect, Vector2.ZERO, 0.0, DangerZone.Kind.ZIGZAG)
+	return true
+
+func _pattern_pinwheel() -> bool:
+	var half := _arena_half
+	var arm_width := half.x * 0.16
+	var arm_length := half.x * 0.62
+	var rects: Array[Rect2] = [
+		Rect2(Vector2(-arm_length / 2.0, -arm_width / 2.0), Vector2(arm_length, arm_width)),
+		Rect2(Vector2(-arm_width / 2.0, -arm_length / 2.0), Vector2(arm_width, arm_length))
+	]
+	return _spawn_rects_as(rects, DangerZone.Kind.PINWHEEL)
+
+func _spawn_rects_as(rects: Array[Rect2], kind: int) -> bool:
+	if not _is_pattern_fair(rects):
+		return false
+	for rect in rects:
+		_spawn_zone_as(rect, Vector2.ZERO, 0.0, kind)
+	return true
