@@ -115,6 +115,7 @@ func _schedule(generation: int) -> void:
 	_spawn_random_pattern()
 	_schedule(generation)
 
+
 func _spawn_random_pattern() -> void:
 	if elapsed >= tuning.idle_pressure_start and is_instance_valid(player) and player.velocity.length() < 10.0:
 		_pattern_player_pressure()

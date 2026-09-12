@@ -46,15 +46,30 @@ func _process(delta: float) -> void:
 
 	# Active movement
 	if active:
-
 		position += velocity * delta
-
 		_bounce_inside_arena()
-
+		_check_player_collision()
 		if _timer >= active_time:
 			queue_free()
 
 	queue_redraw()
+
+func _check_player_collision() -> void:
+	if not active:
+		return
+
+	var player := get_tree().get_first_node_in_group("player")
+
+	if player == null:
+		return
+
+	if player.is_dead:
+		return
+
+	var hit_distance := radius + player.radius
+
+	if global_position.distance_to(player.global_position) <= hit_distance:
+		player.die()
 
 func _bounce_inside_arena() -> void:
 
