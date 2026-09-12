@@ -7,10 +7,6 @@ radius = 18.0
 
 [node name="SpikeBall" type="Area2D"]
 script = ExtResource("1_ssabx")
-radius = null
-speed = null
-warning_time = null
-active_time = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dqk4d")
