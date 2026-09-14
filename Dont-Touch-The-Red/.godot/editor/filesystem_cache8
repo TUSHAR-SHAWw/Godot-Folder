@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1789375592
+::res://::1789380748
 export_presets.cfg::TextFile::-1::1789357460::0::1::::<><>::
 ::res://assets/::1789375260
 coin_common.svg::CompressedTexture2D::1433825551071958829::1789357460::1789367249::1::::<><>::
@@ -9,12 +9,25 @@ player_ball.svg::CompressedTexture2D::3066100649617094962::1789357460::178936724
 powerup_double_score.svg::CompressedTexture2D::3837423421810168481::1789357460::1789367249::1::::<><>::
 powerup_magnet.svg::CompressedTexture2D::667663746768523604::1789357460::1789367249::1::::<><>::
 powerup_shield.svg::CompressedTexture2D::7703806480991922592::1789357460::1789367249::1::::<><>::
-::res://assets/f_skins/::1789375615
-gear.png::CompressedTexture2D::2988857718233543559::1789366636::1789368079::1::::<><>::
+::res://assets/f_skins/::1789380748
+Atom.png::CompressedTexture2D::1482438349123006273::1789377923::1789378736::1::::<><>::
+Blue.png::CompressedTexture2D::3186358227683864872::1789376202::1789378736::1::::<><>::
+Clock.png::CompressedTexture2D::8681283889886839402::1789375960::1789380731::1::::<><>::
+Compus.png::CompressedTexture2D::6208826858523697387::1789377736::1789378736::1::::<><>::
+Diamond.png::CompressedTexture2D::4537203714279017482::1789376340::1789378736::1::::<><>::
+Dragon.png::CompressedTexture2D::6731459801593115662::1789376511::1789378736::1::::<><>::
+Forest.png::CompressedTexture2D::5876678147379569502::1789377366::1789378736::1::::<><>::
+Galaxy.png::CompressedTexture2D::8526481014416977853::1789377287::1789378736::1::::<><>::
+Gear.png::CompressedTexture2D::2988857718233543559::1789366636::1789380748::1::::<><>::
+Lock.png::CompressedTexture2D::1298258879294531805::1789378089::1789378736::1::::<><>::
+Molten.png::CompressedTexture2D::2553908037658960006::1789377227::1789378736::1::::<><>::
 plasma.png::CompressedTexture2D::8990990859837002223::1789366329::1789368079::1::::<><>::
-purple.png::CompressedTexture2D::1149932013077425559::0::0::1::::<><>::
 red.svg::CompressedTexture2D::8527652372859967175::1789357460::1789375268::1::::<><>::
+Robot.png::CompressedTexture2D::1235669497750202087::1789378414::1789378736::1::::<><>::
 Rune.png::CompressedTexture2D::6313808140708402003::1789367203::1789368079::1::::<><>::
+Skin (42).png::CompressedTexture2D::8109335644721587730::1789375825::1789378736::1::::<><>::
+Sunray.png::CompressedTexture2D::4460117667371294457::1789377686::1789378736::1::::<><>::
+void.png::CompressedTexture2D::5460236351165191974::1789376574::1789378736::1::::<><>::
 ::res://assets/OG/::1789359625
 ::res://assets/skins/::1789375241
 Skin (1).png::CompressedTexture2D::189259819597843578::1789360033::1789367250::1::::<><>::
@@ -92,12 +105,12 @@ game-over-arcade-6435.mp3::AudioStreamMP3::4025762295530697155::1789357460::1789
 level-up.mp3::AudioStreamMP3::9096939094530351601::1789357460::1789367249::1::::<><>::
 power-up-01a-484722.mp3::AudioStreamMP3::5478199822005135585::1789357460::1789367249::1::::<><>::
 Shield.mp3::AudioStreamMP3::7589499661126772407::1789357460::1789367249::1::::<><>::
-::res://scenes/::1789375599
+::res://scenes/::1789375654
 Coin.tscn::PackedScene::8872847085672684728::1789357460::0::1::::<><>::res://scripts/Coin.gd<>uid://uos5rld586x2::::res://assets/coin_common.svg
-Main.tscn::PackedScene::9012657723280390858::1789375599::0::1::::<><>::res://scripts/Main.gd<>res://scripts/Arena.gd<>uid://bqweyk4l8jjom::::res://scenes/Player.tscn<>res://scripts/DangerManager.gd<>res://scripts/UIManager.gd<>res://scripts/GameCamera.gd<>uid://c0ja26o5w67mh::::res://assets/sounds/music/game-start-music-loop.mp3<>res://scripts/AudioManager.gd<>uid://x82ouh61q0us::::res://assets/sounds/music/game-music-loop-6-144641.mp3<>uid://cf4yhpd821wea::::res://assets/sounds/music/time_for_adventure.mp3<>uid://btumuxna211om::::res://assets/sounds/music/tap.wav<>res://scripts/GameTuning.gd<>uid://djlnjng8qdh2y::::res://assets/sounds/sfxs/danger.mp3<>uid://dfcobne5g1kmn::::res://assets/sounds/music/coin.wav<>uid://b72ul4ysyoh6q::::res://assets/sounds/music/power_up.wav<>uid://bxmdymwr712db::::res://assets/sounds/sfxs/game-over-arcade-6435.mp3<>uid://b4sdk3lguawwm::::res://assets/sounds/sfxs/coin.mp3<>uid://cdkv0lq3v8ycs::::res://assets/sounds/sfxs/coin2.mp3<>uid://dgen7k4s6aswt::::res://assets/sounds/sfxs/Shield.mp3<>uid://d2uvi1a4ofgm0::::res://assets/sounds/sfxs/level-up.mp3<>uid://ckbxfeg4bfig4::::res://assets/sounds/sfxs/power-up-01a-484722.mp3
+Main.tscn::PackedScene::9012657723280390858::1789375654::0::1::::<><>::res://scripts/Main.gd<>res://scripts/Arena.gd<>uid://bqweyk4l8jjom::::res://scenes/Player.tscn<>res://scripts/DangerManager.gd<>res://scripts/UIManager.gd<>res://scripts/GameCamera.gd<>uid://c0ja26o5w67mh::::res://assets/sounds/music/game-start-music-loop.mp3<>res://scripts/AudioManager.gd<>uid://x82ouh61q0us::::res://assets/sounds/music/game-music-loop-6-144641.mp3<>uid://cf4yhpd821wea::::res://assets/sounds/music/time_for_adventure.mp3<>uid://btumuxna211om::::res://assets/sounds/music/tap.wav<>res://scripts/GameTuning.gd<>uid://djlnjng8qdh2y::::res://assets/sounds/sfxs/danger.mp3<>uid://dfcobne5g1kmn::::res://assets/sounds/music/coin.wav<>uid://b72ul4ysyoh6q::::res://assets/sounds/music/power_up.wav<>uid://bxmdymwr712db::::res://assets/sounds/sfxs/game-over-arcade-6435.mp3<>uid://b4sdk3lguawwm::::res://assets/sounds/sfxs/coin.mp3<>uid://cdkv0lq3v8ycs::::res://assets/sounds/sfxs/coin2.mp3<>uid://dgen7k4s6aswt::::res://assets/sounds/sfxs/Shield.mp3<>uid://d2uvi1a4ofgm0::::res://assets/sounds/sfxs/level-up.mp3<>uid://ckbxfeg4bfig4::::res://assets/sounds/sfxs/power-up-01a-484722.mp3
 Player.tscn::PackedScene::3555144790092800516::1789357461::0::1::::<><>::res://scripts/Player.gd<>uid://bjxih2ts4nsuk::::res://assets/player_ball.svg
 Powerup.tscn::PackedScene::7872837348091017622::1789357461::0::1::::<><>::res://scripts/Powerup.gd<>uid://dh01tjxkc26mu::::res://assets/powerup_shield.svg
-spike_ball.tscn::PackedScene::5028846316679361993::1789375599::0::1::::<><>::res://scripts/SpikeBall.gd
+spike_ball.tscn::PackedScene::5028846316679361993::1789375646::0::1::::<><>::res://scripts/SpikeBall.gd
 ::res://scripts/::1789375503
 Arena.gd::GDScript::-1::1789357461::0::1::::<>Node2D<>::
 AudioManager.gd::GDScript::-1::1789357461::0::1::::<>Node<>::

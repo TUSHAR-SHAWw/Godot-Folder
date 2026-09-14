@@ -13,40 +13,92 @@ const DEFAULT_SKIN := {
 # Costs are kept separately.
 # The index must match the skin index.
 const COSTS := [
-	0,
-	25,
-	60,
-	100,
-	200,
+	0,    # red
+	25,   # Atom
+	50,   # Blue
+	75,   # Clock
+	100,  # Compus
+	125,  # Diamond
+	150,  # Dragon
+	175,  # Forest
+	200,  # Galaxy
+	225,  # Gear
+	250,  # Lock
+	275,  # Molten
+	300,  # plasma
+	325,  # Robot
+	350,  # Rune
+	375,  # Skin (42)
+	400,  # Sunray
+	450,  # void
 ]
 
 # Skin names.
 # The index must match COSTS.
 const SKIN_NAMES := [
 	"red",
-	"puple",
-	"GEAR",
-	"Plasma",
+	"Atom",
+	"Blue",
+	"Clock",
+	"Compus",
+	"Diamond",
+	"Dragon",
+	"Forest",
+	"Galaxy",
+	"Gear",
+	"Lock",
+	"Molten",
+	"plasma",
+	"Robot",
 	"Rune",
+	"Skin (42)",
+	"Sunray",
+	"void",
 ]
 
-# Colors.
+# Placeholder body colors.
 const BODIES := [
-	Color("#ffd900"),
-	Color("#ee00ff"),
-	Color("#ffd900"),
-	Color("#ee00ff"),
-	Color("#0796a3"),
-	
+	Color("#ff0000"), # red
+	Color("#ffffff"), # Atom
+	Color("#0080ff"), # Blue
+	Color("#808080"), # Clock
+	Color("#00ff00"), # Compus
+	Color("#00ffff"), # Diamond
+	Color("#ff8000"), # Dragon
+	Color("#228b22"), # Forest
+	Color("#8000ff"), # Galaxy
+	Color("#ffd900"), # Gear
+	Color("#555555"), # Lock
+	Color("#ff4500"), # Molten
+	Color("#ee00ff"), # plasma
+	Color("#aaaaaa"), # Robot
+	Color("#0796a3"), # Rune
+	Color("#ffffff"), # Skin (42)
+	Color("#ffff00"), # Sunray
+	Color("#111111"), # void
 ]
 
+# Placeholder highlight colors.
 const HIGHLIGHTS := [
-	Color("#ffd900"),
-	Color("#ee00ff"),
-	Color("#f6ff00"),
-	Color("#ff00dd"),
-	Color("#05e1f5"),
-	]
+	Color("#ff5555"), # red
+	Color("#eeeeee"), # Atom
+	Color("#55aaff"), # Blue
+	Color("#cccccc"), # Clock
+	Color("#55ff55"), # Compus
+	Color("#55ffff"), # Diamond
+	Color("#ffaa55"), # Dragon
+	Color("#55cc55"), # Forest
+	Color("#cc55ff"), # Galaxy
+	Color("#f6ff00"), # Gear
+	Color("#888888"), # Lock
+	Color("#ff7755"), # Molten
+	Color("#ff00dd"), # plasma
+	Color("#dddddd"), # Robot
+	Color("#05e1f5"), # Rune
+	Color("#ffffff"), # Skin (42)
+	Color("#ffff88"), # Sunray
+	Color("#555555"), # void
+]
 
 # This is what your UIManager uses.
 # It contains DICTIONARIES, not strings.
