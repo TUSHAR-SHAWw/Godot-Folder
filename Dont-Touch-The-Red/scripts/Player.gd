@@ -8,11 +8,11 @@ const SkinCatalog := preload("res://scripts/SkinCatalog.gd")
 
 @export_group("Movement")
 
-@export var radius := 12.0
+@export var radius := 30.0
 @export var max_speed := 420.0
 @export var acceleration := 2000.0
 @export var friction := 1800.0
-
+@export var skin_scale := .4
 
 # ============================================================
 # VISUAL
@@ -21,10 +21,15 @@ const SkinCatalog := preload("res://scripts/SkinCatalog.gd")
 @export_group("Visual")
 
 @export var trail_enabled := true
-@export var trail_length := 10
+@export var trail_length := 15
 @export var pulse_enabled := true
 @export var pulse_amount := 0.055
-@export var rotation_enabled := true
+@export var rotation_enabled := true 
+@export var rotation_multipler := 3
+
+@export var visual_radius := radius*skin_scale*3
+
+
 
 
 # ============================================================
@@ -125,46 +130,30 @@ func _ready() -> void:
 	# --------------------------------------------------------
 	# Find arena
 	# --------------------------------------------------------
-
 	var arena := get_node_or_null("../Arena")
 
 	if arena and arena.has_method("get_bounds"):
 		arena_rect = arena.get_bounds()
-
-
 	# --------------------------------------------------------
 	# Configure collision radius
 	# --------------------------------------------------------
-
 	var collision := get_node_or_null("CollisionShape2D")
-
 	if collision and collision.shape is CircleShape2D:
 		collision.shape.radius = radius
-
-
 	# --------------------------------------------------------
 	# Base sprite size
 	# --------------------------------------------------------
-
-	_base_sprite_scale = Vector2.ONE * radius * 2.0 / 64.0
+	_base_sprite_scale = Vector2.ONE * (radius * 2.0 / 64.0) * skin_scale
 
 	player_sprite.scale = _base_sprite_scale
-
-
 	# --------------------------------------------------------
 	# Apply skin
 	# --------------------------------------------------------
-
 	set_skin(skin_index)
-
-
 	# --------------------------------------------------------
 	# Initial drawing
 	# --------------------------------------------------------
-
 	queue_redraw()
-
-
 # ============================================================
 # PROCESS
 # ============================================================
@@ -178,53 +167,39 @@ func _process(delta: float) -> void:
 
 	queue_redraw()
 
-
 # ============================================================
 # PHYSICS
 # ============================================================
-
 func _physics_process(delta: float) -> void:
 
 	if is_dead:
 		return
-
-
 	# --------------------------------------------------------
 	# Read movement
 	# --------------------------------------------------------
 
 	var direction := _read_input()
-
-
 	# --------------------------------------------------------
 	# Smooth velocity
 	# --------------------------------------------------------
-
 	velocity = _update_velocity(
 		velocity,
 		direction,
 		delta
 	)
-
-
 	# --------------------------------------------------------
 	# Move
 	# --------------------------------------------------------
 
 	move_and_slide()
-
-
 	# --------------------------------------------------------
 	# Keep player inside arena
 	# --------------------------------------------------------
 
 	clamp_to_arena()
-
-
 	# --------------------------------------------------------
 	# Movement speed
 	# --------------------------------------------------------
-
 	var speed := velocity.length()
 
 	var speed_ratio := clampf(
@@ -232,8 +207,6 @@ func _physics_process(delta: float) -> void:
 		0.0,
 		1.0
 	)
-
-
 	# --------------------------------------------------------
 	# Squash / stretch
 	# --------------------------------------------------------
@@ -241,21 +214,16 @@ func _physics_process(delta: float) -> void:
 	var target_scale := _base_sprite_scale
 
 	if speed > 5.0:
-
 		var stretch := speed_ratio * 0.10
 		var squash := speed_ratio * 0.06
-
 		target_scale *= Vector2(
 			1.0 + stretch,
 			1.0 - squash
 		)
-
 	player_sprite.scale = player_sprite.scale.lerp(
 		target_scale,
 		minf(1.0, delta * 12.0)
 	)
-
-
 	# --------------------------------------------------------
 	# Rotation
 	# --------------------------------------------------------
@@ -263,14 +231,11 @@ func _physics_process(delta: float) -> void:
 	if rotation_enabled and speed > 10.0:
 
 		player_sprite.rotation += (
-			velocity.x * delta * 0.0015
+			velocity.x * delta *  0.0015 * rotation_multipler
 		)
-
-
 	# --------------------------------------------------------
 	# Trail
 	# --------------------------------------------------------
-
 	if trail_enabled and speed > 20.0:
 
 		_trail.push_front(position)
@@ -282,88 +247,54 @@ func _physics_process(delta: float) -> void:
 
 		if _trail.size() > 0:
 			_trail.pop_back()
-
-
 	queue_redraw()
-
-
 # ============================================================
 # INPUT
 # ============================================================
-
 func _read_input() -> Vector2:
 
 	var direction := Vector2.ZERO
-
-
 	# --------------------------------------------------------
 	# Touch joystick
 	# --------------------------------------------------------
-
 	if touch_enabled and touch_vector != Vector2.ZERO:
 
 		return touch_vector.limit_length(1.0)
-
-
 	# --------------------------------------------------------
 	# Keyboard
 	# --------------------------------------------------------
-
 	if Input.is_physical_key_pressed(KEY_A):
 		direction.x -= 1.0
-
 	if Input.is_physical_key_pressed(KEY_LEFT):
 		direction.x -= 1.0
-
-
 	if Input.is_physical_key_pressed(KEY_D):
 		direction.x += 1.0
-
 	if Input.is_physical_key_pressed(KEY_RIGHT):
 		direction.x += 1.0
-
-
 	if Input.is_physical_key_pressed(KEY_W):
 		direction.y -= 1.0
-
 	if Input.is_physical_key_pressed(KEY_UP):
 		direction.y -= 1.0
-
-
 	if Input.is_physical_key_pressed(KEY_S):
 		direction.y += 1.0
-
 	if Input.is_physical_key_pressed(KEY_DOWN):
 		direction.y += 1.0
-
-
 	if direction != Vector2.ZERO:
-
 		return direction.normalized()
-
-
 	# --------------------------------------------------------
 	# Mouse steering
 	# --------------------------------------------------------
-
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-
 		var target := get_global_mouse_position()
-
 		var to_target := target - global_position
-
 		if to_target.length() > 4.0:
-
 			return to_target.normalized()
 
-
 	return Vector2.ZERO
-
 
 # ============================================================
 # VELOCITY
 # ============================================================
-
 func _update_velocity(
 	current: Vector2,
 	direction: Vector2,
@@ -376,14 +307,10 @@ func _update_velocity(
 			direction * max_speed,
 			acceleration * delta
 		)
-
-
 	return current.move_toward(
 		Vector2.ZERO,
 		friction * delta
 	)
-
-
 # ============================================================
 # TOUCH CONTROLS
 # ============================================================
@@ -391,16 +318,12 @@ func _update_velocity(
 func set_touch_vector(value: Vector2) -> void:
 
 	touch_vector = value.limit_length(1.0)
-
-
 func set_touch_enabled(enabled: bool) -> void:
 
 	touch_enabled = enabled
 
 	if not enabled:
 		touch_vector = Vector2.ZERO
-
-
 # ============================================================
 # SKIN
 # ============================================================
@@ -412,41 +335,27 @@ func set_skin(index: int) -> void:
 		0,
 		SkinCatalog.count() - 1
 	)
-
 	if not is_instance_valid(player_sprite):
 		return
 
-
 	if is_dead:
-
 		player_sprite.modulate = Color("#7a1d1d")
-
 	else:
 
 		player_sprite.modulate = Color.WHITE
 		player_sprite.texture = SkinCatalog.get_texture(skin_index)
-
-
 	queue_redraw()
-
-
 # ============================================================
 # DEATH
 # ============================================================
-
 func die() -> void:
-
 	if is_dead:
 		return
-
-
 	var main := get_tree().current_scene
-
 
 	# --------------------------------------------------------
 	# Shield
 	# --------------------------------------------------------
-
 	if main and main.has_method("_try_consume_shield"):
 
 		if main._try_consume_shield():
@@ -454,43 +363,29 @@ func die() -> void:
 			_shield_protected_effect()
 
 			return
-
-
 	# --------------------------------------------------------
 	# Dead state
 	# --------------------------------------------------------
-
 	is_dead = true
 
 	velocity = Vector2.ZERO
-
-
 	# --------------------------------------------------------
 	# Stop previous tween
 	# --------------------------------------------------------
-
 	if _death_tween and _death_tween.is_valid():
 
 		_death_tween.kill()
-
-
 	# --------------------------------------------------------
 	# Death animation
 	# --------------------------------------------------------
-
 	_death_tween = create_tween()
-
 	_death_tween.set_parallel(true)
-
-
 	_death_tween.tween_property(
 		player_sprite,
 		"modulate",
 		Color("#7a1d1d"),
 		0.15
 	)
-
-
 	_death_tween.tween_property(
 		player_sprite,
 		"scale",
@@ -501,8 +396,6 @@ func die() -> void:
 	).set_ease(
 		Tween.EASE_OUT
 	)
-
-
 	_death_tween.tween_property(
 		player_sprite,
 		"rotation",
@@ -513,20 +406,14 @@ func die() -> void:
 	).set_ease(
 		Tween.EASE_OUT
 	)
-
-
 	queue_redraw()
-
 
 	# --------------------------------------------------------
 	# Notify main game
 	# --------------------------------------------------------
-
 	if main and main.has_method("_on_player_died"):
 
 		main._on_player_died()
-
-
 # ============================================================
 # SHIELD EFFECT
 # ============================================================
@@ -547,62 +434,42 @@ func _shield_protected_effect() -> void:
 	).set_trans(
 		Tween.TRANS_BACK
 	)
-
-
 	tween.tween_property(
 		player_sprite,
 		"modulate",
 		Color("#fff3a3"),
 		0.08
 	)
-
-
 	tween.chain().tween_property(
 		player_sprite,
 		"scale",
 		original_scale,
 		0.20
 	)
-
-
 	tween.tween_property(
 		player_sprite,
 		"modulate",
 		Color.WHITE,
 		0.20
 	)
-
-
 	queue_redraw()
-
 
 # ============================================================
 # RESET
 # ============================================================
 
 func reset() -> void:
-
 	is_dead = false
-
 	velocity = Vector2.ZERO
-
 	position = Vector2.ZERO
-
 	_trail.clear()
-
 	player_sprite.rotation = 0.0
-
 	player_sprite.scale = _base_sprite_scale
-
 	set_skin(skin_index)
-
 	queue_redraw()
-
-
 # ============================================================
 # ARENA CLAMP
 # ============================================================
-
 func clamp_to_arena() -> void:
 
 	var min_x := arena_rect.position.x + radius
@@ -611,21 +478,17 @@ func clamp_to_arena() -> void:
 		+ arena_rect.size.x
 		- radius
 	)
-
 	var min_y := arena_rect.position.y + radius
 	var max_y := (
 		arena_rect.position.y
 		+ arena_rect.size.y
 		- radius
 	)
-
-
 	position.x = clampf(
 		position.x,
 		min_x,
 		max_x
 	)
-
 	position.y = clampf(
 		position.y,
 		min_y,
@@ -634,7 +497,6 @@ func clamp_to_arena() -> void:
 # ============================================================
 # CUSTOM DRAWING
 # ============================================================
-
 func _draw() -> void:
 	# --------------------------------------------------------
 	# Current skin colors
@@ -642,24 +504,22 @@ func _draw() -> void:
 	var skin_data := SkinCatalog.get_skin(skin_index)
 	var body_color: Color = skin_data.body
 	var highlight_color: Color = skin_data.highlight
+
 	# --------------------------------------------------------
 	# Motion trail
 	# --------------------------------------------------------
 	if trail_enabled and _trail.size() > 1 and not is_dead:
 		for i in range(_trail.size() - 1):
 			var point := _trail[i]
-			var ratio := float(i) / float(
-				maxi(1, _trail.size() - 1)
-			)
-			var alpha := (
-				(1.0 - ratio)
-				* 0.22
-			)
+			var ratio := float(i) / float(maxi(1, _trail.size() - 1))
+			var alpha := (1.0 - ratio) * 0.22
+
 			var trail_radius := lerpf(
-				radius * 0.75,
-				radius * 0.20,
+				visual_radius * 0.75,
+				visual_radius * 0.20,
 				ratio
 			)
+
 			draw_circle(
 				to_local(point),
 				trail_radius,
@@ -670,117 +530,124 @@ func _draw() -> void:
 					alpha
 				)
 			)
-	# --------------------------------------------------------
-	# Pulse ring
-	# --------------------------------------------------------
-	if pulse_enabled and not is_dead:
 
-		var pulse := (
-			sin(_pulse_time * 3.0)
-			* 0.5
-			+ 0.5
-		)
-		var pulse_radius := (
-			radius
-			+ 3.0
-			+ pulse * 3.0
-		)
-		var pulse_alpha := (
-			0.12
-			- pulse * 0.07
-		)
-		draw_arc(
-			Vector2.ZERO,
-			pulse_radius,
-			0.0,
-			TAU,
-			32,
-			Color(
-				highlight_color.r,
-				highlight_color.g,
-				highlight_color.b,
-				pulse_alpha
-			),
-			1.5
-		)
+		# --------------------------------------------------------
+		# Pulse ring
+		# --------------------------------------------------------
+		if pulse_enabled and not is_dead:
+
+			var pulse := (
+				sin(_pulse_time * 3.0)
+				* 0.5
+				+ 0.5
+			)
+			var pulse_radius := (
+				radius
+				+ 3.0
+				+ pulse * 3.0
+			)
+			var pulse_alpha := (
+				0.12
+				- pulse * 0.07
+			)
+
+			draw_arc(
+				Vector2.ZERO,
+				pulse_radius,
+				0.0,
+				TAU,
+				32,
+				Color(
+					highlight_color.r,
+					highlight_color.g,
+					highlight_color.b,
+					pulse_alpha
+				),
+				1.5
+			)
+
 	# --------------------------------------------------------
 	# Outer glow
 	# --------------------------------------------------------
-	if not is_dead:
-		draw_circle(
-			Vector2.ZERO,
-			radius * 1.45,
-			Color(
-				body_color.r,
-				body_color.g,
-				body_color.b,
-				0.08
-			)
-		)
-		draw_circle(
-			Vector2.ZERO,
-			radius * 1.20,
-			Color(
-				body_color.r,
-				body_color.g,
-				body_color.b,
-				0.12
-			)
-		)
+	# if not is_dead:
+	# 	draw_circle(
+	# 		Vector2.ZERO,
+	# 		radius * 1.45,
+	# 		Color(
+	# 			body_color.r,
+	# 			body_color.g,
+	# 			body_color.b,
+	# 			0.08
+	# 		)
+	# 	)
+	# 	draw_circle(
+	# 		Vector2.ZERO,
+	# 		radius * 1.20,
+	# 		Color(
+	# 			body_color.r,
+	# 			body_color.g,
+	# 			body_color.b,
+	# 			0.12
+	# 		)
+	# 	)
+
 	# --------------------------------------------------------
 	# Main body
 	# --------------------------------------------------------
-	draw_circle(
-		Vector2.ZERO,
-		radius,
-		body_color
-	)
+	# draw_circle(
+	# 	Vector2.ZERO,
+	# 	radius,
+	# 	body_color
+	# )
+
 	# --------------------------------------------------------
 	# Body outline
 	# --------------------------------------------------------
+	# draw_arc(
+	# 	Vector2.ZERO,
+	# 	radius,
+	# 	0.0,
+	# 	TAU,
+	# 	40,
+	# 	highlight_color,
+	# 	1.5
+	# )
 
-	draw_arc(
-		Vector2.ZERO,
-		radius,
-		0.0,
-		TAU,
-		40,
-		highlight_color,
-		1.5
-	)
 	# --------------------------------------------------------
 	# Inner highlight
 	# --------------------------------------------------------
-	var highlight_position := Vector2(
-		-radius * 0.30,
-		-radius * 0.30
-	)
-	draw_circle(
-		highlight_position,
-		radius * 0.30,
-		Color(
-			highlight_color.r,
-			highlight_color.g,
-			highlight_color.b,
-			0.70
-		)
-	)
+	# var highlight_position := Vector2(
+	# 	-radius * 0.30,
+	# 	-radius * 0.30
+	# )
+	# draw_circle(
+	# 	highlight_position,
+	# 	radius * 0.30,
+	# 	Color(
+	# 		highlight_color.r,
+	# 		highlight_color.g,
+	# 		highlight_color.b,
+	# 		0.70
+	# 	)
+	# )
+
 	# --------------------------------------------------------
 	# Small shine
 	# --------------------------------------------------------
-	draw_circle(
-		highlight_position + Vector2(
-			-radius * 0.08,
-			-radius * 0.08
-		),
-		radius * 0.11,
-		Color(
-			1.0,
-			1.0,
-			1.0,
-			0.75
-		)
-	)
+	# draw_circle(
+	# 	highlight_position + Vector2(
+	# 		-radius * 0.08,
+	# 		-radius * 0.08
+	# 	),
+	# 	radius * 0.11,
+	# 	Color(
+	# 		1.0,
+	# 		1.0,
+	# 		1.0,
+	# 		0.75
+	# 	)
+	# )
+
 	# --------------------------------------------------------
 	# Dead visual
 	# --------------------------------------------------------
