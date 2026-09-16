@@ -42,7 +42,7 @@ func _ready() -> void:
 	coin_player.volume_db = sfx_volume_db
 	powerup_player.volume_db = sfx_volume_db
 	
-	#play_background_music()
+	play_background_music()
 
 func play_background_music() -> void:
 	if bg_music_stream is AudioStreamMP3:

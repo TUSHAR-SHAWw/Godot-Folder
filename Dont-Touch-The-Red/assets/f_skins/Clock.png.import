@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvxjqh1ng18l7"
-path="res://.godot/imported/Clock.png-adcad8e2fdd6e58aabf382c097d62ee0.ctex"
+path="res://.godot/imported/clock.png-70ec3fea3482261c3bb8f2fac21d1468.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/Clock.png"
-dest_files=["res://.godot/imported/Clock.png-adcad8e2fdd6e58aabf382c097d62ee0.ctex"]
+source_file="res://assets/f_skins/clock.png"
+dest_files=["res://.godot/imported/clock.png-70ec3fea3482261c3bb8f2fac21d1468.ctex"]
 
 [params]
 

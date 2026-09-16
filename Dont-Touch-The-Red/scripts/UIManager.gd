@@ -93,6 +93,8 @@ var _upgrade_label: Label
 
 var _skin_buttons: Array[Button] = []
 var _skin_costs: Array = []
+var _skin_names: Array = []
+
 
 var _menu_center: CenterContainer
 var _skin_center: CenterContainer
@@ -158,11 +160,14 @@ func _ready() -> void:
 	_build_loading_screen()
 	_build_pause_menu()
 
-	# Skin costs
+	# Skin costs and names
 	_skin_costs = []
+	_skin_names = []
+	
 	for skin in SkinCatalog.SKINS:
 		_skin_costs.append(int(skin.cost))
-
+		_skin_names.append(skin.name)
+		
 	# ------------------------------------------------------------------------
 	# Screen flash
 	# ------------------------------------------------------------------------
@@ -333,12 +338,12 @@ func set_progression(
 	unlocked: Array,
 	multiplier_level := 0
 ) -> void:
-
+	
 	if _coins_label:
 		_coins_label.text = "COINS: %d" % total_coins
 
 	if _menu_coins_label:
-		_menu_coins_label.text = "●  COINS: %d" % total_coins
+		_menu_coins_label.text = "COINS: %d" % total_coins
 
 	if _upgrade_label:
 		_upgrade_label.text = (
@@ -349,6 +354,7 @@ func set_progression(
 			)
 		)
 
+	
 	if _upgrade_button:
 
 		if multiplier_level >= 8:
@@ -379,13 +385,12 @@ func set_progression(
 		elif available:
 
 			_skin_buttons[i].text = (
-				"SKIN %02d" % (i + 1)
+				"%s" % _skin_names[i]
 			)
-
 		else:
 
 			_skin_buttons[i].text = (
-				"%d COINS" % _skin_costs[i]
+				"%d-C %s" % [_skin_costs[i],_skin_names[i]]
 			)
 
 		_skin_buttons[i].modulate = (
@@ -957,8 +962,8 @@ func _build_hud() -> void:
 	hud_timer.offset_left = -220.0
 	hud_timer.offset_right = 220.0
 
-	hud_timer.offset_top = 18.0
-	hud_timer.offset_bottom = 74.0
+	hud_timer.offset_top = 10.0
+	hud_timer.offset_bottom = 66.0
 
 	hud_timer.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_CENTER
@@ -986,8 +991,8 @@ func _build_hud() -> void:
 	hud_best.offset_left = -260.0
 	hud_best.offset_right = -24.0
 
-	hud_best.offset_top = 28.0
-	hud_best.offset_bottom = 66.0
+	hud_best.offset_top = 20.0
+	hud_best.offset_bottom = 58.0
 
 	hud_best.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_RIGHT
@@ -1011,7 +1016,7 @@ func _build_hud() -> void:
 
 	_score_label.position = Vector2(
 		24.0,
-		28.0
+		20.0
 	)
 
 	hud.add_child(_score_label)
@@ -1028,7 +1033,7 @@ func _build_hud() -> void:
 
 	_multiplier_label.position = Vector2(
 		24.0,
-		54.0
+		46.0
 	)
 
 	hud.add_child(_multiplier_label)
@@ -1049,8 +1054,8 @@ func _build_hud() -> void:
 	_coins_label.offset_left = -220.0
 	_coins_label.offset_right = -24.0
 
-	_coins_label.offset_top = 62.0
-	_coins_label.offset_bottom = 90.0
+	_coins_label.offset_top = 54.0
+	_coins_label.offset_bottom = 82.0
 
 	_coins_label.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_RIGHT
@@ -1240,7 +1245,6 @@ func _build_hud() -> void:
 
 	hud.add_child(pause_button)
 
-
 # ============================================================================
 # MAIN MENU
 # ============================================================================
@@ -1372,7 +1376,7 @@ func _build_menu() -> void:
 	# ------------------------------------------------------------------------
 
 	var play := _button(
-		"▶   PLAY",
+		"PLAY",
 		ACCENT
 	)
 
@@ -1517,7 +1521,7 @@ func _build_menu() -> void:
 	# ------------------------------------------------------------------------
 
 	_menu_coins_label = _label(
-		"●  COINS: 0",
+		"COINS: 0",
 		20,
 		Color("#f0c35c")
 	)
@@ -1550,9 +1554,9 @@ func _build_menu() -> void:
 			quit_requested.emit()
 	)
 
-	box.add_child(
-		quit_button
-	)
+	#box.add_child(
+		#quit_button
+	#)
 
 	# ------------------------------------------------------------------------
 	# Best text
@@ -2022,6 +2026,7 @@ func _setting_is_on(key: String) -> bool:
 # SKIN MENU
 # ============================================================================
 
+
 func _build_skin_menu() -> void:
 
 	skin_panel = _make_panel()
@@ -2052,38 +2057,121 @@ func _build_skin_menu() -> void:
 		)
 	)
 
+	# --------------------------------
+	# Scroll container
+	# --------------------------------
+
+	var scroll := ScrollContainer.new()
+
+	scroll.name = "SkinScroll"
+
+	scroll.custom_minimum_size = Vector2(
+		620,
+		430
+	)
+
+	scroll.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+
+	scroll.follow_focus = true
+
+	box.add_child(scroll)
+
+	# --------------------------------
+	# Skin grid
+	# --------------------------------
+
 	var grid := GridContainer.new()
+
+	grid.name = "SkinGrid"
 
 	grid.columns = 5
 
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
 	grid.add_theme_constant_override(
 		"h_separation",
-		10
+		12
 	)
 
 	grid.add_theme_constant_override(
 		"v_separation",
-		10
+		12
 	)
 
+	scroll.add_child(grid)
+
+	# --------------------------------
+	# Skin cards
+	# --------------------------------
+
 	for i in range(SkinCatalog.count()):
+
 		var skin_data := SkinCatalog.get_skin(i)
+
+		var card := VBoxContainer.new()
+
+		card.custom_minimum_size = Vector2(
+			142,
+			150
+		)
+
+		card.add_theme_constant_override(
+			"separation",
+			5
+		)
+
+		# ----------------------------
+		# Skin image
+		# ----------------------------
+
+		var skin_texture := TextureRect.new()
+
+		skin_texture.custom_minimum_size = Vector2(
+			142,
+			105
+		)
+
+		skin_texture.texture = SkinCatalog.get_texture(i)
+
+		skin_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+
+		skin_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+
+		card.add_child(
+			skin_texture
+		)
+
+		# ----------------------------
+		# Skin name
+		# ----------------------------
 
 		var skin_button := _button(
 			str(skin_data.name),
 			Color("#292d3a")
 		)
-		skin_button.icon = SkinCatalog.get_texture(i)
-		skin_button.expand_icon = true
 
 		skin_button.custom_minimum_size = Vector2(
 			142,
-			58
+			40
 		)
 
 		skin_button.add_theme_font_size_override(
 			"font_size",
 			16
+		)
+
+		skin_button.add_theme_color_override(
+			"font_color",
+			Color.WHITE
+		)
+
+		skin_button.add_theme_color_override(
+			"font_hover_color",
+			Color.WHITE
 		)
 
 		var skin_index := i
@@ -2095,15 +2183,21 @@ func _build_skin_menu() -> void:
 				)
 		)
 
-		grid.add_child(
+		card.add_child(
 			skin_button
+		)
+
+		grid.add_child(
+			card
 		)
 
 		_skin_buttons.append(
 			skin_button
 		)
 
-	box.add_child(grid)
+	# --------------------------------
+	# Back button
+	# --------------------------------
 
 	var back := _button(
 		"BACK",
@@ -2120,7 +2214,12 @@ func _build_skin_menu() -> void:
 			skin_menu_closed.emit()
 	)
 
-	box.add_child(back)
+	box.add_child(
+		back
+	)
+
+	# Make sure the menu can process keyboard input.
+	set_process(true)
 
 
 # ============================================================================
@@ -3026,7 +3125,6 @@ func _fmt_time(v: int) -> String:
 		s
 	]
 
-
 # ============================================================================
 # ANIMATED BACKGROUND
 # ============================================================================
@@ -3034,9 +3132,7 @@ func _fmt_time(v: int) -> String:
 class _AnimatedBackground extends Control:
 
 	var time := 0.0
-
 	var particles: Array[Dictionary] = []
-
 
 	func _ready() -> void:
 
@@ -3076,7 +3172,6 @@ class _AnimatedBackground extends Control:
 			})
 
 		queue_redraw()
-
 
 	func _process(
 		delta: float
