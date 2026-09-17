@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dds3t1ijpmss0"
-path="res://.godot/imported/Skin (32).png-afdcbfa4ae717e179d36664eccc96925.ctex"
+uid="uid://crlfigsf68op6"
+path="res://.godot/imported/ddtr1.PNG-ca560a32013611f70f0c6e96ba1e79bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/skins/Skin (32).png"
-dest_files=["res://.godot/imported/Skin (32).png-afdcbfa4ae717e179d36664eccc96925.ctex"]
+source_file="res://assets/ddtr1.PNG"
+dest_files=["res://.godot/imported/ddtr1.PNG-ca560a32013611f70f0c6e96ba1e79bb.ctex"]
 
 [params]
 
