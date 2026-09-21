@@ -47,7 +47,8 @@ var _menu_background: _AnimatedBackground
 var _menu_particles: Array[Dictionary] = []
 var _menu_time := 0.0
 var _menu_initialized := false
-
+var _menu_best_card_value: Label
+var _menu_coin_card_value: Label
 var _title_tween: Tween
 var _play_tween: Tween
 
@@ -55,7 +56,8 @@ var hud: Control
 var hud_timer: Label
 var hud_best: Label
 
-var menu_best: Label
+
+
 var menu_panel: Control
 var _selected_mode_label: Label
 
@@ -80,7 +82,7 @@ var _milestone: Label
 var _powerup_label: Label
 
 var _coins_label: Label
-var _menu_coins_label: Label
+
 
 var _score_label: Label
 var _multiplier_label: Label
@@ -338,14 +340,14 @@ func set_progression(
 	unlocked: Array,
 	multiplier_level := 0
 ) -> void:
-	
-	if _coins_label:
+
+	if is_instance_valid(_coins_label):
 		_coins_label.text = "COINS: %d" % total_coins
 
-	if _menu_coins_label:
-		_menu_coins_label.text = "COINS: %d" % total_coins
+	if is_instance_valid(_menu_coin_card_value):
+		_menu_coin_card_value.text = "%d" % total_coins
 
-	if _upgrade_label:
+	if is_instance_valid(_upgrade_label):
 		_upgrade_label.text = (
 			"PERMANENT MULTIPLIER: x%.1f"
 			% minf(
@@ -354,8 +356,7 @@ func set_progression(
 			)
 		)
 
-	
-	if _upgrade_button:
+	if is_instance_valid(_upgrade_button):
 
 		if multiplier_level >= 8:
 
@@ -373,7 +374,7 @@ func set_progression(
 
 	for i in range(_skin_buttons.size()):
 
-		var available = (
+		var available: bool = (
 			i < unlocked.size()
 			and unlocked[i]
 		)
@@ -387,10 +388,15 @@ func set_progression(
 			_skin_buttons[i].text = (
 				"%s" % _skin_names[i]
 			)
+
 		else:
 
 			_skin_buttons[i].text = (
-				"%d-C %s" % [_skin_costs[i],_skin_names[i]]
+				"%d-C %s"
+				% [
+					_skin_costs[i],
+					_skin_names[i]
+				]
 			)
 
 		_skin_buttons[i].modulate = (
@@ -398,7 +404,6 @@ func set_progression(
 			if i == selected_skin
 			else Color(0.65, 0.65, 0.7)
 		)
-
 
 func set_shop(
 	total_coins: int,
@@ -644,28 +649,26 @@ func show_pickup(text: String, color: Color) -> void:
 # PUBLIC SCREEN FUNCTIONS
 # ============================================================================
 
-func show_menu(best: int) -> void:
+func show_menu(best: float) -> void:
 
-	hud.visible = false
-	go_panel.visible = false
-	skin_panel.visible = false
-	settings_panel.visible = false
-	shop_panel.visible = false
-	pause_panel.visible = false
+	hud.hide()
+	go_panel.hide()
+	skin_panel.hide()
+	settings_panel.hide()
+	shop_panel.hide()
+	pause_panel.hide()
 
-	menu_panel.visible = true
+	menu_panel.show()
+	_menu_center.show()
 
 	_touch_joystick.visible = false
 
-	menu_best.text = (
-		"BEST: " + _fmt_time(best)
-	)
+	if is_instance_valid(_menu_best_card_value):
+		_menu_best_card_value.text = _fmt_time(int(best))
 
-	_loading_panel.visible = false
+	hide_loading()
 
-	_animate_center(_menu_center)
-	_animate_menu_accent()
-
+	#_animate_menu()
 
 func set_selected_mode(mode: int) -> void:
 	var mode_names := ["CLASSIC", "RUSH", "ZEN"]
@@ -843,9 +846,9 @@ func update_timer(
 		"x%.1f" % multiplier
 	)
 
-	_coins_label.text = (
-		"COINS: %d" % total_coins
-	)
+	#_coins_label.text = (
+		#"COINS: "%d" % total_coins
+	#)
 
 
 func update_active_effects(
@@ -1038,30 +1041,7 @@ func _build_hud() -> void:
 
 	hud.add_child(_multiplier_label)
 
-	# ------------------------------------------------------------------------
-	# Coins
-	# ------------------------------------------------------------------------
 
-	_coins_label = _label(
-		"COINS: 0",
-		24,
-		Color("#f0c35c")
-	)
-
-	_coins_label.anchor_left = 1.0
-	_coins_label.anchor_right = 1.0
-
-	_coins_label.offset_left = -220.0
-	_coins_label.offset_right = -24.0
-
-	_coins_label.offset_top = 54.0
-	_coins_label.offset_bottom = 82.0
-
-	_coins_label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_RIGHT
-	)
-
-	hud.add_child(_coins_label)
 
 	# ------------------------------------------------------------------------
 	# Active effects
@@ -1354,12 +1334,16 @@ func _build_menu() -> void:
 	)
 
 	var best_card := _stat_card(
-		"BEST",
-		"00:00",
-		Color("#f7c85b")
-	)
+	"BEST",
+	"00:00",
+	Color("#f7c85b")
+)
 
 	stats.add_child(best_card)
+
+	var best_box := best_card.get_child(0) as VBoxContainer
+	_menu_best_card_value = best_box.get_child(1) as Label
+
 
 	var coin_card := _stat_card(
 		"COINS",
@@ -1368,6 +1352,9 @@ func _build_menu() -> void:
 	)
 
 	stats.add_child(coin_card)
+
+	var coin_box := coin_card.get_child(0) as VBoxContainer
+	_menu_coin_card_value = coin_box.get_child(1) as Label
 
 	box.add_child(stats)
 
@@ -1516,19 +1503,7 @@ func _build_menu() -> void:
 
 	box.add_child(nav)
 
-	# ------------------------------------------------------------------------
-	# Coins
-	# ------------------------------------------------------------------------
 
-	_menu_coins_label = _label(
-		"COINS: 0",
-		20,
-		Color("#f0c35c")
-	)
-
-	box.add_child(
-		_menu_coins_label
-	)
 
 	# ------------------------------------------------------------------------
 	# Quit
@@ -1558,53 +1533,19 @@ func _build_menu() -> void:
 		#quit_button
 	#)
 
-	# ------------------------------------------------------------------------
-	# Best text
-	# ------------------------------------------------------------------------
-
-	menu_best = _label(
-		"BEST: 00:00",
-		16,
-		Color("#666c7d")
-	)
-
-	box.add_child(menu_best)
-
-
 # ============================================================================
 # STAT CARD
 # ============================================================================
 
-func _stat_card(
-	title: String,
-	value: String,
-	color: Color
-) -> Control:
+func _stat_card(title: String, value: String, color: Color) -> PanelContainer:
 
 	var panel := PanelContainer.new()
 
 	var style := StyleBoxFlat.new()
-
-	style.bg_color = Color(
-		0.08,
-		0.09,
-		0.13,
-		0.92
-	)
-
-	style.set_corner_radius_all(10)
-
-	style.border_width_left = 1
-	style.border_width_top = 1
-	style.border_width_right = 1
-	style.border_width_bottom = 1
-
-	style.border_color = Color(
-		1.0,
-		1.0,
-		1.0,
-		0.08
-	)
+	style.bg_color = Color("#151923")
+	style.border_color = Color("#2b3040")
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
 
 	panel.add_theme_stylebox_override(
 		"panel",
@@ -1622,20 +1563,17 @@ func _stat_card(
 		BoxContainer.ALIGNMENT_CENTER
 	)
 
-	box.add_theme_constant_override(
-		"separation",
-		0
-	)
-
 	var title_label := _label(
 		title,
 		12,
-		Color("#73798b")
+		Color("#8b91a3")
 	)
 
-	box.add_child(
-		title_label
+	title_label.horizontal_alignment = (
+		HORIZONTAL_ALIGNMENT_CENTER
 	)
+
+	box.add_child(title_label)
 
 	var value_label := _label(
 		value,
@@ -1643,15 +1581,15 @@ func _stat_card(
 		color
 	)
 
-	box.add_child(
-		value_label
+	value_label.horizontal_alignment = (
+		HORIZONTAL_ALIGNMENT_CENTER
 	)
+
+	box.add_child(value_label)
 
 	panel.add_child(box)
 
 	return panel
-
-
 # ============================================================================
 # MENU NAV BUTTON
 # ============================================================================
@@ -1700,6 +1638,15 @@ func _build_settings_menu() -> void:
 
 	var box: VBoxContainer = center.get_child(0)
 
+	box.add_theme_constant_override(
+		"separation",
+		10
+	)
+
+	# ------------------------------------------------------------------------
+	# TITLE
+	# ------------------------------------------------------------------------
+
 	box.add_child(
 		_label(
 			"SETTINGS",
@@ -1716,35 +1663,110 @@ func _build_settings_menu() -> void:
 		)
 	)
 
+	# ------------------------------------------------------------------------
+	# SCROLL AREA
+	# ------------------------------------------------------------------------
+
+	var scroll := ScrollContainer.new()
+
+	scroll.name = "SettingsScroll"
+
+	# The important part:
+	# The scroll area gets a maximum usable height instead of allowing
+	# the VBox to become taller than the screen.
+
+	scroll.custom_minimum_size = Vector2(
+		360,
+		360
+	)
+
+	scroll.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	scroll.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+
+	scroll.horizontal_scroll_mode = (
+		ScrollContainer.SCROLL_MODE_DISABLED
+	)
+
+	scroll.vertical_scroll_mode = (
+		ScrollContainer.SCROLL_MODE_AUTO
+	)
+
+	scroll.follow_focus = true
+
+	box.add_child(scroll)
+
+	# ------------------------------------------------------------------------
+	# SETTINGS CONTENT
+	# ------------------------------------------------------------------------
+
+	var settings_box := VBoxContainer.new()
+
+	settings_box.name = "SettingsContent"
+
+	settings_box.size_flags_horizontal = (
+		Control.SIZE_EXPAND_FILL
+	)
+
+	settings_box.add_theme_constant_override(
+		"separation",
+		8
+	)
+
+	scroll.add_child(settings_box)
+
+	# ------------------------------------------------------------------------
+	# MUSIC
+	# ------------------------------------------------------------------------
+
 	_add_setting_button(
-		box,
+		settings_box,
 		"music",
 		"MUSIC"
 	)
 
+	# ------------------------------------------------------------------------
+	# SFX
+	# ------------------------------------------------------------------------
+
 	_add_setting_button(
-		box,
+		settings_box,
 		"sfx",
 		"SFX"
 	)
 
+	# ------------------------------------------------------------------------
+	# SCREEN SHAKE
+	# ------------------------------------------------------------------------
+
 	_add_setting_button(
-		box,
+		settings_box,
 		"shake",
 		"SCREEN SHAKE"
 	)
 
+	# ------------------------------------------------------------------------
+	# REDUCED EFFECTS
+	# ------------------------------------------------------------------------
+
 	_add_setting_button(
-		box,
+		settings_box,
 		"reduced_effects",
 		"REDUCED EFFECTS"
 	)
 
+	# ------------------------------------------------------------------------
+	# TOUCH CONTROLS
+	# ------------------------------------------------------------------------
+
 	_add_setting_button(
-		box,
+		settings_box,
 		"touch_controls",
 		"TOUCH JOYSTICK"
 	)
+
+	# ------------------------------------------------------------------------
+	# RESET GAME DATA
+	# ------------------------------------------------------------------------
 
 	var reset := _button(
 		"RESET GAME DATA",
@@ -1766,7 +1788,14 @@ func _build_settings_menu() -> void:
 			reset_game_requested.emit()
 	)
 
-	box.add_child(reset)
+	settings_box.add_child(reset)
+
+	# ------------------------------------------------------------------------
+	# BACK BUTTON
+	# IMPORTANT:
+	# Keep BACK OUTSIDE the ScrollContainer.
+	# This guarantees that BACK always remains accessible.
+	# ------------------------------------------------------------------------
 
 	var back := _button(
 		"BACK",
@@ -1776,6 +1805,11 @@ func _build_settings_menu() -> void:
 	back.custom_minimum_size = Vector2(
 		320,
 		58
+	)
+
+	back.add_theme_font_size_override(
+		"font_size",
+		18
 	)
 
 	back.pressed.connect(
@@ -2684,6 +2718,9 @@ func play_transition() -> void:
 # ============================================================================
 # CENTER BOX
 # ============================================================================
+# ============================================================================
+# CENTER BOX
+# ============================================================================
 
 func _make_centered_box() -> CenterContainer:
 
@@ -2708,10 +2745,14 @@ func _make_centered_box() -> CenterContainer:
 		22
 	)
 
+	box.custom_minimum_size = Vector2(
+		0,
+		0
+	)
+
 	center.add_child(box)
 
 	return center
-
 
 # ============================================================================
 # RESPONSIVE LAYOUT
@@ -2740,11 +2781,14 @@ func _apply_responsive_layout() -> void:
 		1.0
 	)
 
+	# ------------------------------------------------------------------------
+	# Normal screen scaling
+	# ------------------------------------------------------------------------
+
 	for center in [
 		_menu_center,
 		_skin_center,
 		_go_center,
-		_settings_center,
 		_shop_center,
 		_pause_center
 	]:
@@ -2759,6 +2803,31 @@ func _apply_responsive_layout() -> void:
 				Vector2.ONE * scale_factor
 			)
 
+	# ------------------------------------------------------------------------
+	# SETTINGS
+	#
+	# Settings gets its own responsive treatment because it contains
+	# multiple controls and a ScrollContainer.
+	# ------------------------------------------------------------------------
+
+	if is_instance_valid(_settings_center):
+
+		var settings_scale := clampf(
+			minf(
+				viewport_size.x / 900.0,
+				viewport_size.y / 700.0
+			),
+			0.55,
+			1.0
+		)
+
+		_settings_center.pivot_offset = (
+			viewport_size * 0.5
+		)
+
+		_settings_center.scale = (
+			Vector2.ONE * settings_scale
+		)
 
 # ============================================================================
 # TOUCH JOYSTICK

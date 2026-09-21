@@ -56,6 +56,7 @@ var item_inventory: Array = [0, 0, 0]
 @onready var audio := $AudioManager
 @onready var tuning := $GameTuning
 
+
 func _ready() -> void:
 	audio.play_background_music()
 	process_mode = Node.PROCESS_MODE_ALWAYS
