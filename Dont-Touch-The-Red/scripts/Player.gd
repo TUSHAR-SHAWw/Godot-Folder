@@ -109,7 +109,11 @@ var _base_sprite_scale := Vector2.ONE
 
 var _pulse_time := 0.0
 
+var _pulse_redraw_timer := 0.0
+
 var _death_tween: Tween
+
+var _dirty := true
 
 
 # ============================================================
@@ -164,8 +168,12 @@ func _process(delta: float) -> void:
 		return
 
 	_pulse_time += delta
+	_pulse_redraw_timer += delta
 
-	queue_redraw()
+	if _dirty or _pulse_redraw_timer >= 0.1:
+		_pulse_redraw_timer = 0.0
+		_dirty = false
+		queue_redraw()
 
 # ============================================================
 # PHYSICS
@@ -242,12 +250,13 @@ func _physics_process(delta: float) -> void:
 
 		if _trail.size() > trail_length:
 			_trail.pop_back()
+		_dirty = true
 
 	else:
 
 		if _trail.size() > 0:
 			_trail.pop_back()
-	queue_redraw()
+			_dirty = true
 # ============================================================
 # INPUT
 # ============================================================
@@ -344,6 +353,7 @@ func set_skin(index: int) -> void:
 
 		player_sprite.modulate = Color.WHITE
 		player_sprite.texture = SkinCatalog.get_texture(skin_index)
+	_dirty = true
 	queue_redraw()
 # ============================================================
 # DEATH
@@ -406,6 +416,7 @@ func die() -> void:
 	).set_ease(
 		Tween.EASE_OUT
 	)
+	_dirty = true
 	queue_redraw()
 
 	# --------------------------------------------------------
@@ -452,6 +463,7 @@ func _shield_protected_effect() -> void:
 		Color.WHITE,
 		0.20
 	)
+	_dirty = true
 	queue_redraw()
 
 # ============================================================
@@ -466,6 +478,7 @@ func reset() -> void:
 	player_sprite.rotation = 0.0
 	player_sprite.scale = _base_sprite_scale
 	set_skin(skin_index)
+	_dirty = true
 	queue_redraw()
 # ============================================================
 # ARENA CLAMP
@@ -565,88 +578,6 @@ func _draw() -> void:
 				),
 				1.5
 			)
-
-	# --------------------------------------------------------
-	# Outer glow
-	# --------------------------------------------------------
-	# if not is_dead:
-	# 	draw_circle(
-	# 		Vector2.ZERO,
-	# 		radius * 1.45,
-	# 		Color(
-	# 			body_color.r,
-	# 			body_color.g,
-	# 			body_color.b,
-	# 			0.08
-	# 		)
-	# 	)
-	# 	draw_circle(
-	# 		Vector2.ZERO,
-	# 		radius * 1.20,
-	# 		Color(
-	# 			body_color.r,
-	# 			body_color.g,
-	# 			body_color.b,
-	# 			0.12
-	# 		)
-	# 	)
-
-	# --------------------------------------------------------
-	# Main body
-	# --------------------------------------------------------
-	# draw_circle(
-	# 	Vector2.ZERO,
-	# 	radius,
-	# 	body_color
-	# )
-
-	# --------------------------------------------------------
-	# Body outline
-	# --------------------------------------------------------
-	# draw_arc(
-	# 	Vector2.ZERO,
-	# 	radius,
-	# 	0.0,
-	# 	TAU,
-	# 	40,
-	# 	highlight_color,
-	# 	1.5
-	# )
-
-	# --------------------------------------------------------
-	# Inner highlight
-	# --------------------------------------------------------
-	# var highlight_position := Vector2(
-	# 	-radius * 0.30,
-	# 	-radius * 0.30
-	# )
-	# draw_circle(
-	# 	highlight_position,
-	# 	radius * 0.30,
-	# 	Color(
-	# 		highlight_color.r,
-	# 		highlight_color.g,
-	# 		highlight_color.b,
-	# 		0.70
-	# 	)
-	# )
-
-	# --------------------------------------------------------
-	# Small shine
-	# --------------------------------------------------------
-	# draw_circle(
-	# 	highlight_position + Vector2(
-	# 		-radius * 0.08,
-	# 		-radius * 0.08
-	# 	),
-	# 	radius * 0.11,
-	# 	Color(
-	# 		1.0,
-	# 		1.0,
-	# 		1.0,
-	# 		0.75
-	# 	)
-	# )
 
 	# --------------------------------------------------------
 	# Dead visual

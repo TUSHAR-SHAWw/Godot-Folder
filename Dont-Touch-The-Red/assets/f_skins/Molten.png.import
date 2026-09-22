@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcneq0bm4x20a"
-path="res://.godot/imported/molten.png-dec481ebc6d329cfc25b012a5d5abe76.ctex"
+path="res://.godot/imported/Molten.png-75622aaa09a3a26752474e5f66d17a8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/molten.png"
-dest_files=["res://.godot/imported/molten.png-dec481ebc6d329cfc25b012a5d5abe76.ctex"]
+source_file="res://assets/f_skins/Molten.png"
+dest_files=["res://.godot/imported/Molten.png-75622aaa09a3a26752474e5f66d17a8e.ctex"]
 
 [params]
 

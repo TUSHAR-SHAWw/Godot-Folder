@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://vedspy8k506p"
-path="res://.godot/imported/atom.png-50d1a5debd5d9a94cf97b6d1b3b398ba.ctex"
+path="res://.godot/imported/Atom.png-bfbf929f556d9a4527f8a3882837de25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/atom.png"
-dest_files=["res://.godot/imported/atom.png-50d1a5debd5d9a94cf97b6d1b3b398ba.ctex"]
+source_file="res://assets/f_skins/Atom.png"
+dest_files=["res://.godot/imported/Atom.png-bfbf929f556d9a4527f8a3882837de25.ctex"]
 
 [params]
 

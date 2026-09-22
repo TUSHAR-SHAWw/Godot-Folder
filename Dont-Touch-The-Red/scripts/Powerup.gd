@@ -1,6 +1,7 @@
 extends Area2D
 
 signal collected(kind)
+signal removed(powerup)
 
 enum Kind { SHIELD, DOUBLE_SCORE, MAGNET }
 
@@ -13,6 +14,7 @@ var lifetime := 12.0
 var _time := 0.0
 var _collected := false
 var _origin := Vector2.ZERO
+var _main: Node = null
 @onready var visual: Sprite2D = $Sprite2D
 
 func setup(new_kind: int, new_lifetime := 12.0) -> void:
@@ -22,6 +24,7 @@ func setup(new_kind: int, new_lifetime := 12.0) -> void:
 
 func _ready() -> void:
 	_origin = position
+	_main = get_tree().current_scene
 	collision_layer = 0
 	collision_mask = 1
 	body_entered.connect(_on_body_entered)
@@ -38,6 +41,7 @@ func _on_body_entered(body: Node) -> void:
 		return
 	_collected = true
 	set_deferred("monitoring", false)
+	removed.emit(self)
 	collected.emit(kind)
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(self, "scale", Vector2.ONE * 1.8, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

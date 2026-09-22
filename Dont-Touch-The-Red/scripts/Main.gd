@@ -49,6 +49,12 @@ var reduced_effects := false
 var is_paused := false
 var item_inventory: Array = [0, 0, 0]
 
+var _active_coins: Array = []
+var _active_powerups: Array = []
+var _current_scene: Node = null
+var _save_pending := false
+var _danger_rects: Array[Rect2] = []
+
 @onready var danger_manager := $DangerManager
 @onready var player := $Player
 @onready var ui := $UI
@@ -64,6 +70,7 @@ func _ready() -> void:
 	$DangerManager.process_mode = Node.PROCESS_MODE_PAUSABLE
 	$Player.process_mode = Node.PROCESS_MODE_PAUSABLE
 	$Camera2D.process_mode = Node.PROCESS_MODE_PAUSABLE
+	_current_scene = get_tree().current_scene
 	best = _load_best()
 	coins = _load_coins()
 	multiplier_level = clampi(_load_multiplier_level(), 0, 8)
@@ -118,6 +125,9 @@ func _ready() -> void:
 	_enter_menu()
 
 func _process(delta: float) -> void:
+	if _save_pending:
+		_save_pending = false
+		_save_progress()
 	if state == State.PLAYING and not is_paused:
 		elapsed += delta
 		coin_spawn_timer -= delta
@@ -188,6 +198,9 @@ func start_game() -> void:
 	ui.update_active_effects(false, 0.0, 0.0)
 	ui.set_shop(coins, item_inventory)
 	ui.set_item_inventory(item_inventory)
+	_current_scene = get_tree().current_scene
+	_active_coins.clear()
+	_active_powerups.clear()
 
 func _enter_menu() -> void:
 	get_tree().paused = false
@@ -258,8 +271,11 @@ func _on_shop_action(item: int, action: String) -> void:
 		audio.play_ui()
 	else:
 		return
-	_save_progress()
+	_request_save()
 	ui.set_shop(coins, item_inventory)
+
+func _request_save() -> void:
+	_save_pending = true
 
 func _on_item_use_requested(item: int) -> void:
 	if state != State.PLAYING or item < 0 or item >= item_inventory.size() or item_inventory[item] <= 0:
@@ -276,7 +292,7 @@ func _on_item_use_requested(item: int) -> void:
 		2:
 			magnet_time = tuning.magnet_duration
 			ui.show_powerup("COIN MAGNET ACTIVE")
-	_save_progress()
+	_request_save()
 	ui.set_item_inventory(item_inventory)
 
 func _quit_game() -> void:
@@ -349,7 +365,7 @@ func _on_skin_selected(skin: int) -> void:
 		unlocked_skins[skin] = true
 	if unlocked_skins[skin]:
 		selected_skin = skin
-		_save_progress()
+		_request_save()
 		player.set_skin(selected_skin)
 		ui.set_progression(coins, selected_skin, unlocked_skins, multiplier_level)
 
@@ -361,7 +377,7 @@ func _on_multiplier_upgrade() -> void:
 		return
 	coins -= cost
 	multiplier_level += 1
-	_save_progress()
+	_request_save()
 	ui.set_progression(coins, selected_skin, unlocked_skins, multiplier_level)
 
 func _base_multiplier() -> float:
@@ -436,8 +452,12 @@ func is_magnet_active() -> bool:
 	return magnet_time > 0.0
 
 func _spawn_coin() -> void:
-	if get_tree().get_nodes_in_group("run_coins").size() >= tuning.max_active_coins:
+	if _active_coins.size() >= tuning.max_active_coins:
 		return
+	_danger_rects.clear()
+	for child in danger_manager.get_children():
+		if child.has_method("is_active") and child.is_active() and child.has_method("get_danger_rect"):
+			_danger_rects.append(child.get_danger_rect())
 	for attempt in range(48):
 		var position := Vector2(randf_range(-360.0, 360.0), randf_range(-260.0, 260.0))
 		if _coin_position_is_safe(position):
@@ -453,11 +473,13 @@ func _spawn_coin() -> void:
 			coin.position = position
 			coin.z_index = 10
 			coin.collected.connect(_on_coin_collected)
+			coin.removed.connect(_on_coin_removed)
 			add_child(coin)
+			_active_coins.append(coin)
 			return
 
 func _spawn_powerup() -> void:
-	if get_tree().get_nodes_in_group("run_powerups").size() >= 1:
+	if _active_powerups.size() >= 1:
 		return
 	for attempt in range(12):
 		var position := Vector2(randf_range(-340.0, 340.0), randf_range(-240.0, 240.0))
@@ -468,7 +490,9 @@ func _spawn_powerup() -> void:
 			powerup.position = position
 			powerup.z_index = 10
 			powerup.collected.connect(_on_powerup_collected)
+			powerup.removed.connect(_on_powerup_removed)
 			add_child(powerup)
+			_active_powerups.append(powerup)
 			return
 
 func _on_powerup_collected(kind: int) -> void:
@@ -486,14 +510,15 @@ func _on_powerup_collected(kind: int) -> void:
 			ui.show_powerup("COIN MAGNET - 8s")
 
 func _clear_powerups() -> void:
-	for powerup in get_tree().get_nodes_in_group("run_powerups"):
+	for powerup in _active_powerups:
 		powerup.queue_free()
+	_active_powerups.clear()
 
 func _coin_position_is_safe(world_position: Vector2) -> bool:
 	if is_instance_valid(player) and world_position.distance_to(player.position) < 36.0:
 		return false
-	for child in danger_manager.get_children():
-		if child.has_method("is_active") and child.is_active() and child.get_danger_rect().grow(20.0).has_point(world_position):
+	for rect in _danger_rects:
+		if rect.grow(20.0).has_point(world_position):
 			return false
 	return true
 
@@ -508,8 +533,17 @@ func _on_coin_collected(value: int) -> void:
 	ui.update_timer(elapsed, int(score_progress), _active_multiplier(), coins + run_coins)
 
 func _clear_coins() -> void:
-	for coin in get_tree().get_nodes_in_group("run_coins"):
+	for coin in _active_coins:
 		coin.queue_free()
+	_active_coins.clear()
+
+func _on_coin_removed(coin: Coin) -> void:
+	if coin in _active_coins:
+		_active_coins.erase(coin)
+
+func _on_powerup_removed(powerup: Powerup) -> void:
+	if powerup in _active_powerups:
+		_active_powerups.erase(powerup)
 
 func _score() -> int:
 	return int(score_progress)

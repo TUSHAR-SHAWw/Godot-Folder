@@ -20,6 +20,9 @@ var mode := 0
 var _run_generation := 0
 @onready var tuning := get_node("../GameTuning")
 
+var _fair_cache_result := false
+var _fair_cache_elapsed := -1.0
+
 # Arena half-size (matches the Arena node, +-400/+-300 around the origin).
 var _arena_half := Vector2(400, 300)
 
@@ -152,6 +155,8 @@ func _spawn_random_pattern() -> void:
 func _is_pattern_fair(rects: Array[Rect2]) -> bool:
 	if rects.is_empty():
 		return false
+	if elapsed - _fair_cache_elapsed < 0.1:
+		return _fair_cache_result
 	var hazards := rects.duplicate()
 	for child in get_children():
 		if child is DangerZone and child.is_active():
@@ -160,12 +165,14 @@ func _is_pattern_fair(rects: Array[Rect2]) -> bool:
 	var player_position := player.global_position if is_instance_valid(player) else Vector2.ZERO
 	for rect in rects:
 		if rect.grow(16.0).has_point(player_position):
+			_fair_cache_result = false
+			_fair_cache_elapsed = elapsed
 			return false
 
 	var safe_points := 0
-	for y in range(-5, 6):
-		for x in range(-6, 7):
-			var point := Vector2(x * _arena_half.x / 6.0, y * _arena_half.y / 5.0)
+	for y in range(-3, 4):
+		for x in range(-4, 5):
+			var point := Vector2(x * _arena_half.x / 4.0, y * _arena_half.y / 3.0)
 			var safe := true
 			for hazard in hazards:
 				if hazard.grow(16.0).has_point(point):
@@ -173,7 +180,9 @@ func _is_pattern_fair(rects: Array[Rect2]) -> bool:
 					break
 			if safe:
 				safe_points += 1
-	return safe_points >= 3
+	_fair_cache_result = safe_points >= 3
+	_fair_cache_elapsed = elapsed
+	return _fair_cache_result
 
 func _spawn_rects(rects: Array[Rect2]) -> bool:
 	if not _is_pattern_fair(rects):

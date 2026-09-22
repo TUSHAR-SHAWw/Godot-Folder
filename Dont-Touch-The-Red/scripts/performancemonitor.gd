@@ -8,9 +8,10 @@ extends Node
 ## Full performance monitor with automatic panel height.
 ## ============================================================
 
+@export var enabled := true
 @export var panel_width := 300
 @export var margin := 12
-@export var update_interval := 0.25
+@export var update_interval := 1.0
 
 var panel: Panel
 var label: RichTextLabel
@@ -22,6 +23,9 @@ var max_fps := 0.0
 
 var fps_total := 0.0
 var fps_samples := 0
+
+var _has_static_memory_usage := false
+var _version_text := ""
 
 
 func _ready() -> void:

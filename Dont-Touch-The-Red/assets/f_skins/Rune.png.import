@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cv7pq6int7316"
-path="res://.godot/imported/rune.png-64515d19650c40626fcf38c1792c3be5.ctex"
+path="res://.godot/imported/Rune.png-79e3f31d91107683e787e3709c880ee1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/rune.png"
-dest_files=["res://.godot/imported/rune.png-64515d19650c40626fcf38c1792c3be5.ctex"]
+source_file="res://assets/f_skins/Rune.png"
+dest_files=["res://.godot/imported/Rune.png-79e3f31d91107683e787e3709c880ee1.ctex"]
 
 [params]
 

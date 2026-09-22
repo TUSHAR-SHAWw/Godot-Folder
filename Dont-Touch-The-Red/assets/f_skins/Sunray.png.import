@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4srqshrmhucn"
-path="res://.godot/imported/sunray.png-9590d0b72066568910cb5a2b99bc4033.ctex"
+path="res://.godot/imported/Sunray.png-a0f29a064d258d18b7a6b7da2c6d715a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/sunray.png"
-dest_files=["res://.godot/imported/sunray.png-9590d0b72066568910cb5a2b99bc4033.ctex"]
+source_file="res://assets/f_skins/Sunray.png"
+dest_files=["res://.godot/imported/Sunray.png-a0f29a064d258d18b7a6b7da2c6d715a.ctex"]
 
 [params]
 

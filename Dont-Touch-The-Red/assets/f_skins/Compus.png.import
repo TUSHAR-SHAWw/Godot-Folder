@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cupuqa0tsr7t4"
-path="res://.godot/imported/compus.png-9dcd1b9fb1d3f8e153e055e6fe5b2da7.ctex"
+path="res://.godot/imported/Compus.png-1fa70a797106a152882202ee20093ab7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/f_skins/compus.png"
-dest_files=["res://.godot/imported/compus.png-9dcd1b9fb1d3f8e153e055e6fe5b2da7.ctex"]
+source_file="res://assets/f_skins/Compus.png"
+dest_files=["res://.godot/imported/Compus.png-1fa70a797106a152882202ee20093ab7.ctex"]
 
 [params]
 

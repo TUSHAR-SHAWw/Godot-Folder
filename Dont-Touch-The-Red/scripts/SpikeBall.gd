@@ -10,6 +10,7 @@ var active := false
 var _warning := true
 var _timer := 0.0
 var _collider: CollisionShape2D
+var _redraw_timer := 0.0
 
 var arena_rect := Rect2(-400, -300, 800, 600)
 
@@ -52,7 +53,10 @@ func _process(delta: float) -> void:
 			active = true
 			_timer = 0.0
 
-		queue_redraw()
+		_redraw_timer += delta
+		if _redraw_timer >= 0.05:
+			_redraw_timer = 0.0
+			queue_redraw()
 		return
 
 	# Active movement
@@ -61,9 +65,6 @@ func _process(delta: float) -> void:
 		position += velocity * delta
 
 		_bounce_inside_arena()
-		for body in get_overlapping_bodies():
-			if body.is_in_group("player") and body.has_method("die"):
-				body.die()
 
 		if _timer >= active_time:
 			queue_free()

@@ -3211,8 +3211,7 @@ class _AnimatedBackground extends Control:
 
 		randomize()
 
-		for i in range(55):
-
+		for i in range(30):
 			particles.append({
 				"position": Vector2(
 					randf(),
@@ -3245,6 +3244,9 @@ class _AnimatedBackground extends Control:
 	func _process(
 		delta: float
 	) -> void:
+
+		if not is_visible_in_tree():
+			return
 
 		time += delta
 

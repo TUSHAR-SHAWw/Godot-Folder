@@ -26,6 +26,15 @@ var motion_time := 0.0
 
 var phase := Phase.WARNING
 
+var _dirty := true
+
+var _last_drawn_size := Vector2.ZERO
+
+var _last_drawn_phase := Phase.WARNING
+
+var _last_draw_flash := 0.0
+
+
 const WARNING_COLOR := Color("#8a1616")
 const ACTIVE_COLOR := Color("#e02323")
 const ACTIVE_BORDER := Color("#6d0d0d")
@@ -63,6 +72,8 @@ func _ready() -> void:
 
 func _start_warning() -> void:
 	phase = Phase.WARNING
+	_dirty = true
+	_last_drawn_phase = Phase.WARNING
 	get_tree().create_timer(warning_time, false).timeout.connect(_activate)
 	queue_redraw()
 
@@ -74,12 +85,17 @@ func _activate() -> void:
 	activation_tween.tween_property(self, "modulate:a", 1.0, 0.14).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_update_collider()
 	activated.emit()
+	_dirty = true
+	_last_drawn_phase = Phase.ACTIVE
 	queue_redraw()
 	get_tree().create_timer(active_time, false).timeout.connect(_finish)
 
 func _finish() -> void:
 	phase = Phase.DONE
 	_collider.set_deferred("disabled", true)
+	monitoring = false
+	_dirty = true
+	_last_drawn_phase = Phase.DONE
 	finished.emit()
 	var finish_tween := create_tween()
 	finish_tween.tween_property(self, "modulate:a", 0.0, 0.14)
@@ -95,20 +111,18 @@ func _physics_process(delta: float) -> void:
 	motion_time += delta
 	if kind == Kind.MOVING_WALL and phase != Phase.DONE:
 		position = motion_origin + motion_axis * sin(motion_time * 2.0) * motion_range
-		queue_redraw()
+		_dirty = true
 	_activation_flash = maxf(0.0, _activation_flash - delta)
-	if phase == Phase.WARNING:
-		queue_redraw()
+	if _activation_flash > 0.0 and phase == Phase.ACTIVE:
+		_dirty = true
 	if target_size != Vector2.ZERO and size_now != target_size:
 		size_now = size_now.move_toward(target_size, grow_speed * delta)
 		if phase != Phase.WARNING:
 			_update_collider()
-		queue_redraw()
+		_dirty = true
 
-	if phase == Phase.ACTIVE:
-		for body in get_overlapping_bodies():
-			if body.is_in_group("player") and body.has_method("die"):
-				body.die()
+	if _dirty:
+		queue_redraw()
 
 func _update_collider() -> void:
 	_shape.size = size_now
@@ -147,6 +161,11 @@ func _draw() -> void:
 			var burst_rect := Rect2(-size_now * burst / 2.0, size_now * burst)
 			var burst_color := Color(1.0, 0.35, 0.35, _activation_flash / 0.22)
 			draw_rect(burst_rect, burst_color, false, 8.0)
+
+	_last_drawn_size = size_now
+	_last_drawn_phase = phase
+	_last_draw_flash = _activation_flash
+	_dirty = false
 
 func _draw_spikes(rect: Rect2, color: Color) -> void:
 	var count := maxi(3, int(rect.size.x / 28.0))
